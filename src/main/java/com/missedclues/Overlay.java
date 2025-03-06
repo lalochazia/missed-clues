@@ -1,0 +1,143 @@
+package com.missedclues;
+
+import net.runelite.api.Client;
+import net.runelite.client.game.ItemManager;
+import net.runelite.client.ui.overlay.OverlayLayer;
+import net.runelite.client.ui.overlay.OverlayPosition;
+import net.runelite.client.util.ImageUtil;
+
+import javax.inject.Inject;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FontMetrics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Overlay extends net.runelite.client.ui.overlay.Overlay
+{
+    private final Client client;
+    private final ItemManager itemManager;
+    private final BufferedImage closeButtonImage;
+    private final BufferedImage closeButtonHoveredImage;
+    private final BufferedImage incineratorImage;
+    private Rectangle closeButtonBounds;
+    private boolean displayItems;
+    private List<ItemStack> itemStacks = new ArrayList<>();
+
+    @Inject
+    public Overlay(Client client, ItemManager itemManager)
+    {
+        this.client = client;
+        this.itemManager = itemManager;
+
+        setPosition(OverlayPosition.DYNAMIC);
+        setLayer(OverlayLayer.ABOVE_SCENE);
+        setPriority(200.0f);
+
+        incineratorImage = ImageUtil.loadImageResource(getClass(), "/incinerator.png");
+        closeButtonImage = ImageUtil.loadImageResource(getClass(), "/closeButton.png");
+        closeButtonHoveredImage = ImageUtil.loadImageResource(getClass(), "/closeButtonHovered.png");
+    }
+
+    public void displayItems(boolean show)
+    {
+        this.displayItems = show;
+    }
+
+    public boolean isDisplayingItems()
+    {
+        return this.displayItems;
+    }
+
+    public void setItemStacks(List<ItemStack> stacks)
+    {
+        this.itemStacks = stacks;
+    }
+
+    public Rectangle getCloseButtonBounds()
+    {
+        return closeButtonBounds;
+    }
+
+    @Override
+    public Dimension render(Graphics2D graphics)
+    {
+        if (!displayItems || itemStacks.isEmpty())
+        {
+            return null;
+        }
+
+        final int canvasWidth = client.getCanvasWidth();
+        final int canvasHeight = client.getCanvasHeight();
+
+        final int startX = canvasWidth / 2 - 24;
+        final int startY = canvasHeight / 3 - 24;
+
+        if (incineratorImage != null)
+        {
+            int incX = startX - 140;
+            int incY = startY - 70;
+            graphics.drawImage(incineratorImage, incX, incY, null);
+
+            if (closeButtonImage != null)
+            {
+                int closeX = incX + incineratorImage.getWidth() - closeButtonImage.getWidth() + 40;
+                int closeY = incY + 15;
+
+                closeButtonBounds = new Rectangle(closeX, closeY,
+                        closeButtonImage.getWidth(), closeButtonImage.getHeight());
+
+                net.runelite.api.Point netMousePos = client.getMouseCanvasPosition();
+                Point mousePos = new Point(netMousePos.getX(), netMousePos.getY());
+
+                boolean isHovered = closeButtonBounds.contains(mousePos);
+
+                BufferedImage toDraw = isHovered ? closeButtonHoveredImage : closeButtonImage;
+                graphics.drawImage(toDraw, closeX, closeY, null);
+            }
+        }
+
+        final int itemsPerRow = 3;
+        int x = startX;
+        int y = startY;
+
+        for (int i = 0; i < itemStacks.size(); i++)
+        {
+            ItemStack stack = itemStacks.get(i);
+            int itemId = stack.getItemId();
+            int quantity = stack.getQuantity();
+
+            BufferedImage itemImage = itemManager.getImage(itemId);
+            if (itemImage != null)
+            {
+                graphics.drawImage(itemImage, x, y, null);
+                if (quantity > 1)
+                {
+                    String qtyText = String.valueOf(quantity);
+                    FontMetrics fm = graphics.getFontMetrics();
+                    int textX = x;
+                    int textY = y + fm.getAscent();
+                    graphics.setColor(Color.BLACK);
+                    graphics.drawString(qtyText, textX + 1, textY + 1);
+                    graphics.setColor(Color.YELLOW);
+                    graphics.drawString(qtyText, textX, textY);
+                }
+                if ((i + 1) % itemsPerRow == 0)
+                {
+                    x = startX;
+                    y += itemImage.getHeight() + 10;
+                }
+                else
+                {
+                    x += itemImage.getWidth() + 10;
+                }
+            }
+        }
+
+        return null;
+    }
+}

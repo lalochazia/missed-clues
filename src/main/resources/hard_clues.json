@@ -1,0 +1,1641 @@
+[
+  {
+    "itemId": 10354,
+    "itemName": "Amulet of glory (t4)",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 2581,
+    "itemName": "Robin hood hat",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 7400,
+    "itemName": "Enchanted hat",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 7399,
+    "itemName": "Enchanted top",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 7398,
+    "itemName": "Enchanted robe",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 22231,
+    "itemName": "Dragon boots ornament kit",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 2627,
+    "itemName": "Rune full helm (t)",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 2623,
+    "itemName": "Rune platebody (t)",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 2625,
+    "itemName": "Rune platelegs (t)",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 3477,
+    "itemName": "Rune plateskirt (t)",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 2629,
+    "itemName": "Rune kiteshield (t)",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 2619,
+    "itemName": "Rune full helm (g)",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 2615,
+    "itemName": "Rune platebody (g)",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 2617,
+    "itemName": "Rune platelegs (g)",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 3476,
+    "itemName": "Rune plateskirt (g)",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 2621,
+    "itemName": "Rune kiteshield (g)",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 7336,
+    "itemName": "Rune shield (h1)",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 7342,
+    "itemName": "Rune shield (h2)",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 7348,
+    "itemName": "Rune shield (h3)",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 7354,
+    "itemName": "Rune shield (h4)",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 7360,
+    "itemName": "Rune shield (h5)",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 10286,
+    "itemName": "Rune helm (h1)",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 10288,
+    "itemName": "Rune helm (h2)",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 10290,
+    "itemName": "Rune helm (h3)",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 10292,
+    "itemName": "Rune helm (h4)",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 10294,
+    "itemName": "Rune helm (h5)",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 23209,
+    "itemName": "Rune platebody (h1)",
+    "quantity": "1",
+    "rarity": "1/8,125",
+    "weight": 7115
+  },
+  {
+    "itemId": 23212,
+    "itemName": "Rune platebody (h2)",
+    "quantity": "1",
+    "rarity": "1/8,125",
+    "weight": 7115
+  },
+  {
+    "itemId": 23215,
+    "itemName": "Rune platebody (h3)",
+    "quantity": "1",
+    "rarity": "1/8,125",
+    "weight": 7115
+  },
+  {
+    "itemId": 23218,
+    "itemName": "Rune platebody (h4)",
+    "quantity": "1",
+    "rarity": "1/8,125",
+    "weight": 7115
+  },
+  {
+    "itemId": 23221,
+    "itemName": "Rune platebody (h5)",
+    "quantity": "1",
+    "rarity": "1/8,125",
+    "weight": 7115
+  },
+  {
+    "itemId": 2657,
+    "itemName": "Zamorak full helm",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 2653,
+    "itemName": "Zamorak platebody",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 2655,
+    "itemName": "Zamorak platelegs",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 3478,
+    "itemName": "Zamorak plateskirt",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 2659,
+    "itemName": "Zamorak kiteshield",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 2673,
+    "itemName": "Guthix full helm",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 2669,
+    "itemName": "Guthix platebody",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 2671,
+    "itemName": "Guthix platelegs",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 3480,
+    "itemName": "Guthix plateskirt",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 2675,
+    "itemName": "Guthix kiteshield",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 2665,
+    "itemName": "Saradomin full helm",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 2661,
+    "itemName": "Saradomin platebody",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 2663,
+    "itemName": "Saradomin platelegs",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 3479,
+    "itemName": "Saradomin plateskirt",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 2667,
+    "itemName": "Saradomin kiteshield",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 12466,
+    "itemName": "Ancient full helm",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 12460,
+    "itemName": "Ancient platebody",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 12462,
+    "itemName": "Ancient platelegs",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 12464,
+    "itemName": "Ancient plateskirt",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 12468,
+    "itemName": "Ancient kiteshield",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 12476,
+    "itemName": "Armadyl full helm",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 12470,
+    "itemName": "Armadyl platebody",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 12472,
+    "itemName": "Armadyl platelegs",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 12474,
+    "itemName": "Armadyl plateskirt",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 12478,
+    "itemName": "Armadyl kiteshield",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 12486,
+    "itemName": "Bandos full helm",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 12480,
+    "itemName": "Bandos platebody",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 12482,
+    "itemName": "Bandos platelegs",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 12484,
+    "itemName": "Bandos plateskirt",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 12488,
+    "itemName": "Bandos kiteshield",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 12327,
+    "itemName": "Red d\u0027hide body (g)",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 12331,
+    "itemName": "Red d\u0027hide body (t)",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 12329,
+    "itemName": "Red d\u0027hide chaps (g)",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 12333,
+    "itemName": "Red d\u0027hide chaps (t)",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 7374,
+    "itemName": "Blue d\u0027hide body (g)",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 7376,
+    "itemName": "Blue d\u0027hide body (t)",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 7382,
+    "itemName": "Blue d\u0027hide chaps (g)",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 7384,
+    "itemName": "Blue d\u0027hide chaps (t)",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 10390,
+    "itemName": "Saradomin coif",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 10386,
+    "itemName": "Saradomin d\u0027hide body",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 10388,
+    "itemName": "Saradomin chaps",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 10384,
+    "itemName": "Saradomin bracers",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 19933,
+    "itemName": "Saradomin d\u0027hide boots",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 23191,
+    "itemName": "Saradomin d\u0027hide shield",
+    "quantity": "1",
+    "rarity": "1/9,750",
+    "weight": 5929
+  },
+  {
+    "itemId": 10382,
+    "itemName": "Guthix coif",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 10378,
+    "itemName": "Guthix d\u0027hide body",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 10380,
+    "itemName": "Guthix chaps",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 10376,
+    "itemName": "Guthix bracers",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 19927,
+    "itemName": "Guthix d\u0027hide boots",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 23188,
+    "itemName": "Guthix d\u0027hide shield",
+    "quantity": "1",
+    "rarity": "1/9,750",
+    "weight": 5929
+  },
+  {
+    "itemId": 10374,
+    "itemName": "Zamorak coif",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 10370,
+    "itemName": "Zamorak d\u0027hide body",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 10372,
+    "itemName": "Zamorak chaps",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 10368,
+    "itemName": "Zamorak bracers",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 19936,
+    "itemName": "Zamorak d\u0027hide boots",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 23194,
+    "itemName": "Zamorak d\u0027hide shield",
+    "quantity": "1",
+    "rarity": "1/9,750",
+    "weight": 5929
+  },
+  {
+    "itemId": 12504,
+    "itemName": "Bandos coif",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 12500,
+    "itemName": "Bandos d\u0027hide body",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 12502,
+    "itemName": "Bandos chaps",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 12498,
+    "itemName": "Bandos bracers",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 19924,
+    "itemName": "Bandos d\u0027hide boots",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 23203,
+    "itemName": "Bandos d\u0027hide shield",
+    "quantity": "1",
+    "rarity": "1/9,750",
+    "weight": 5929
+  },
+  {
+    "itemId": 12512,
+    "itemName": "Armadyl coif",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 12508,
+    "itemName": "Armadyl d\u0027hide body",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 12510,
+    "itemName": "Armadyl chaps",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 12506,
+    "itemName": "Armadyl bracers",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 19930,
+    "itemName": "Armadyl d\u0027hide boots",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 23200,
+    "itemName": "Armadyl d\u0027hide shield",
+    "quantity": "1",
+    "rarity": "1/9,750",
+    "weight": 5929
+  },
+  {
+    "itemId": 12496,
+    "itemName": "Ancient coif",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 12492,
+    "itemName": "Ancient d\u0027hide body",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 12494,
+    "itemName": "Ancient chaps",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 12490,
+    "itemName": "Ancient bracers",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 19921,
+    "itemName": "Ancient d\u0027hide boots",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 23197,
+    "itemName": "Ancient d\u0027hide shield",
+    "quantity": "1",
+    "rarity": "1/9,750",
+    "weight": 5929
+  },
+  {
+    "itemId": 10470,
+    "itemName": "Saradomin stole",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 10440,
+    "itemName": "Saradomin crozier",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 10472,
+    "itemName": "Guthix stole",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 10442,
+    "itemName": "Guthix crozier",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 10474,
+    "itemName": "Zamorak stole",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 10444,
+    "itemName": "Zamorak crozier",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": -1,
+    "itemName": "Zombie head (Treasure Trails)",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 19915,
+    "itemName": "Cyclops head",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 2651,
+    "itemName": "Pirate\u0027s hat",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 12323,
+    "itemName": "Red cavalier",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 12321,
+    "itemName": "White cavalier",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 12325,
+    "itemName": "Navy cavalier",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 2639,
+    "itemName": "Tan cavalier",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 2641,
+    "itemName": "Dark cavalier",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 2643,
+    "itemName": "Black cavalier",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 12516,
+    "itemName": "Pith helmet",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 12514,
+    "itemName": "Explorer backpack",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 12518,
+    "itemName": "Green dragon mask",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 12520,
+    "itemName": "Blue dragon mask",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 12522,
+    "itemName": "Red dragon mask",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 12524,
+    "itemName": "Black dragon mask",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 19918,
+    "itemName": "Nunchaku",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 12379,
+    "itemName": "Rune cane",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 23206,
+    "itemName": "Dual sai",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 23224,
+    "itemName": "Thieving bag",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 23227,
+    "itemName": "Rune defender ornament kit",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 23237,
+    "itemName": "Berserker necklace ornament kit",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": -1,
+    "itemName": "Tzhaar-ket-om ornament kit",
+    "quantity": "1",
+    "rarity": "1/1,625",
+    "weight": 35576
+  },
+  {
+    "itemId": 3016,
+    "itemName": "Super energy(4)",
+    "quantity": "15",
+    "rarity": "1/16,250",
+    "weight": 3557
+  },
+  {
+    "itemId": 3024,
+    "itemName": "Super restore(4)",
+    "quantity": "15",
+    "rarity": "1/16,250",
+    "weight": 3557
+  },
+  {
+    "itemId": 2452,
+    "itemName": "Antifire potion(4)",
+    "quantity": "15",
+    "rarity": "1/16,250",
+    "weight": 3557
+  },
+  {
+    "itemId": 2436,
+    "itemName": "Super attack(4)",
+    "quantity": "5",
+    "rarity": "1/16,250",
+    "weight": 3557
+  },
+  {
+    "itemId": 3486,
+    "itemName": "Gilded full helm",
+    "quantity": "1",
+    "rarity": "1/35,750",
+    "weight": 1617
+  },
+  {
+    "itemId": 3481,
+    "itemName": "Gilded platebody",
+    "quantity": "1",
+    "rarity": "1/35,750",
+    "weight": 1617
+  },
+  {
+    "itemId": 3483,
+    "itemName": "Gilded platelegs",
+    "quantity": "1",
+    "rarity": "1/35,750",
+    "weight": 1617
+  },
+  {
+    "itemId": 3485,
+    "itemName": "Gilded plateskirt",
+    "quantity": "1",
+    "rarity": "1/35,750",
+    "weight": 1617
+  },
+  {
+    "itemId": 3488,
+    "itemName": "Gilded kiteshield",
+    "quantity": "1",
+    "rarity": "1/35,750",
+    "weight": 1617
+  },
+  {
+    "itemId": 20146,
+    "itemName": "Gilded med helm",
+    "quantity": "1",
+    "rarity": "1/35,750",
+    "weight": 1617
+  },
+  {
+    "itemId": 20149,
+    "itemName": "Gilded chainbody",
+    "quantity": "1",
+    "rarity": "1/35,750",
+    "weight": 1617
+  },
+  {
+    "itemId": 20152,
+    "itemName": "Gilded sq shield",
+    "quantity": "1",
+    "rarity": "1/35,750",
+    "weight": 1617
+  },
+  {
+    "itemId": 20155,
+    "itemName": "Gilded 2h sword",
+    "quantity": "1",
+    "rarity": "1/35,750",
+    "weight": 1617
+  },
+  {
+    "itemId": 20158,
+    "itemName": "Gilded spear",
+    "quantity": "1",
+    "rarity": "1/35,750",
+    "weight": 1617
+  },
+  {
+    "itemId": 20161,
+    "itemName": "Gilded hasta",
+    "quantity": "1",
+    "rarity": "1/35,750",
+    "weight": 1617
+  },
+  {
+    "itemId": 10350,
+    "itemName": "3rd age full helmet",
+    "quantity": "1",
+    "rarity": "1/211,250",
+    "weight": 273
+  },
+  {
+    "itemId": 10348,
+    "itemName": "3rd age platebody",
+    "quantity": "1",
+    "rarity": "1/211,250",
+    "weight": 273
+  },
+  {
+    "itemId": 10346,
+    "itemName": "3rd age platelegs",
+    "quantity": "1",
+    "rarity": "1/211,250",
+    "weight": 273
+  },
+  {
+    "itemId": 23242,
+    "itemName": "3rd age plateskirt",
+    "quantity": "1",
+    "rarity": "1/211,250",
+    "weight": 273
+  },
+  {
+    "itemId": 10352,
+    "itemName": "3rd age kiteshield",
+    "quantity": "1",
+    "rarity": "1/211,250",
+    "weight": 273
+  },
+  {
+    "itemId": 10334,
+    "itemName": "3rd age range coif",
+    "quantity": "1",
+    "rarity": "1/211,250",
+    "weight": 273
+  },
+  {
+    "itemId": 10330,
+    "itemName": "3rd age range top",
+    "quantity": "1",
+    "rarity": "1/211,250",
+    "weight": 273
+  },
+  {
+    "itemId": 10332,
+    "itemName": "3rd age range legs",
+    "quantity": "1",
+    "rarity": "1/211,250",
+    "weight": 273
+  },
+  {
+    "itemId": 10336,
+    "itemName": "3rd age vambraces",
+    "quantity": "1",
+    "rarity": "1/211,250",
+    "weight": 273
+  },
+  {
+    "itemId": 10342,
+    "itemName": "3rd age mage hat",
+    "quantity": "1",
+    "rarity": "1/211,250",
+    "weight": 273
+  },
+  {
+    "itemId": 10338,
+    "itemName": "3rd age robe top",
+    "quantity": "1",
+    "rarity": "1/211,250",
+    "weight": 273
+  },
+  {
+    "itemId": 10340,
+    "itemName": "3rd age robe",
+    "quantity": "1",
+    "rarity": "1/211,250",
+    "weight": 273
+  },
+  {
+    "itemId": 10344,
+    "itemName": "3rd age amulet",
+    "quantity": "1",
+    "rarity": "1/211,250",
+    "weight": 273
+  },
+  {
+    "itemId": 1163,
+    "itemName": "Rune full helm",
+    "quantity": "1",
+    "rarity": "1/27.1",
+    "weight": 2141174
+  },
+  {
+    "itemId": 1127,
+    "itemName": "Rune platebody",
+    "quantity": "1",
+    "rarity": "1/27.1",
+    "weight": 2141174
+  },
+  {
+    "itemId": 1079,
+    "itemName": "Rune platelegs",
+    "quantity": "1",
+    "rarity": "1/27.1",
+    "weight": 2141174
+  },
+  {
+    "itemId": 1093,
+    "itemName": "Rune plateskirt",
+    "quantity": "1",
+    "rarity": "1/27.1",
+    "weight": 2141174
+  },
+  {
+    "itemId": 1201,
+    "itemName": "Rune kiteshield",
+    "quantity": "1",
+    "rarity": "1/27.1",
+    "weight": 2141174
+  },
+  {
+    "itemId": 1303,
+    "itemName": "Rune longsword",
+    "quantity": "1",
+    "rarity": "1/27.1",
+    "weight": 2141174
+  },
+  {
+    "itemId": 1213,
+    "itemName": "Rune dagger",
+    "quantity": "1",
+    "rarity": "1/27.1",
+    "weight": 2141174
+  },
+  {
+    "itemId": 1373,
+    "itemName": "Rune battleaxe",
+    "quantity": "1",
+    "rarity": "1/27.1",
+    "weight": 2141174
+  },
+  {
+    "itemId": 1359,
+    "itemName": "Rune axe",
+    "quantity": "1",
+    "rarity": "1/27.1",
+    "weight": 2141174
+  },
+  {
+    "itemId": 1275,
+    "itemName": "Rune pickaxe",
+    "quantity": "1",
+    "rarity": "1/27.1",
+    "weight": 2141174
+  },
+  {
+    "itemId": 2503,
+    "itemName": "Black d\u0027hide body",
+    "quantity": "1",
+    "rarity": "1/27.1",
+    "weight": 2141174
+  },
+  {
+    "itemId": 2497,
+    "itemName": "Black d\u0027hide chaps",
+    "quantity": "1",
+    "rarity": "1/27.1",
+    "weight": 2141174
+  },
+  {
+    "itemId": 861,
+    "itemName": "Magic shortbow",
+    "quantity": "1",
+    "rarity": "1/27.1",
+    "weight": 2141174
+  },
+  {
+    "itemId": 859,
+    "itemName": "Magic longbow",
+    "quantity": "1",
+    "rarity": "1/30.1",
+    "weight": 1927057
+  },
+  {
+    "itemId": 10284,
+    "itemName": "Magic comp bow",
+    "quantity": "1",
+    "rarity": "1/270.8",
+    "weight": 213327
+  },
+  {
+    "itemId": 561,
+    "itemName": "Nature rune",
+    "quantity": "30–50",
+    "rarity": "1/27.1",
+    "weight": 2141174
+  },
+  {
+    "itemId": 563,
+    "itemName": "Law rune",
+    "quantity": "30–50",
+    "rarity": "1/27.1",
+    "weight": 2141174
+  },
+  {
+    "itemId": 565,
+    "itemName": "Blood rune",
+    "quantity": "20–30",
+    "rarity": "1/27.1",
+    "weight": 2141174
+  },
+  {
+    "itemId": 379,
+    "itemName": "Lobster",
+    "quantity": "12–15",
+    "rarity": "1/27.1",
+    "weight": 2141174
+  },
+  {
+    "itemId": 385,
+    "itemName": "Shark",
+    "quantity": "12–15",
+    "rarity": "1/27.1",
+    "weight": 2141174
+  },
+  //{
+  //  "itemId": 617,
+  //  "itemName": "Coins",
+  //  "quantity": "1000–5000",
+  //  "rarity": "1/27.1",
+  //  "weight": 2141174
+  //},
+  //{
+  //  "itemId": 617,
+  //  "itemName": "Coins",
+  //  "quantity": "10000–15000",
+  //  "rarity": "1/77.4",
+  //  "weight": 750801
+  //},
+  {
+    "itemId": 4561,
+    "itemName": "Purple sweets",
+    "quantity": "7–15",
+    "rarity": "1/27.1",
+    "weight": 2141174
+  },
+  {
+    "itemId": 4561,
+    "itemName": "Purple sweets",
+    "quantity": "8–12",
+    "rarity": "1/77.4",
+    "weight": 750801
+  },
+  {
+    "itemId": 7329,
+    "itemName": "Red firelighter",
+    "quantity": "9–15",
+    "rarity": "1/135.4",
+    "weight": 428234
+  },
+  {
+    "itemId": 7330,
+    "itemName": "Green firelighter",
+    "quantity": "9–15",
+    "rarity": "1/135.4",
+    "weight": 428234
+  },
+  {
+    "itemId": 7331,
+    "itemName": "Blue firelighter",
+    "quantity": "9–15",
+    "rarity": "1/135.4",
+    "weight": 428234
+  },
+  {
+    "itemId": 10326,
+    "itemName": "Purple firelighter",
+    "quantity": "9–15",
+    "rarity": "1/135.4",
+    "weight": 428234
+  },
+  {
+    "itemId": 10327,
+    "itemName": "White firelighter",
+    "quantity": "9–15",
+    "rarity": "1/135.4",
+    "weight": 428234
+  },
+  {
+    "itemId": 20220,
+    "itemName": "Holy blessing",
+    "quantity": "1",
+    "rarity": "1/541.7",
+    "weight": 106663
+  },
+  {
+    "itemId": 20223,
+    "itemName": "Unholy blessing",
+    "quantity": "1",
+    "rarity": "1/541.7",
+    "weight": 106663
+  },
+  {
+    "itemId": 20226,
+    "itemName": "Peaceful blessing",
+    "quantity": "1",
+    "rarity": "1/541.7",
+    "weight": 106663
+  },
+  {
+    "itemId": 20232,
+    "itemName": "War blessing",
+    "quantity": "1",
+    "rarity": "1/541.7",
+    "weight": 106663
+  },
+  {
+    "itemId": 20229,
+    "itemName": "Honourable blessing",
+    "quantity": "1",
+    "rarity": "1/541.7",
+    "weight": 106663
+  },
+  {
+    "itemId": 20235,
+    "itemName": "Ancient blessing",
+    "quantity": "1",
+    "rarity": "1/541.7",
+    "weight": 106663
+  },
+  {
+    "itemId": 20238,
+    "itemName": "Charge dragonstone jewellery scroll",
+    "quantity": "5–15",
+    "rarity": "1/340.5",
+    "weight": 169535
+  },
+  {
+    "itemId": 12402,
+    "itemName": "Nardah teleport",
+    "quantity": "5–15",
+    "rarity": "1/340.5",
+    "weight": 169535
+  },
+  {
+    "itemId": 12411,
+    "itemName": "Mos le\u0027harmless teleport",
+    "quantity": "5–15",
+    "rarity": "1/340.5",
+    "weight": 169535
+  },
+  {
+    "itemId": 12406,
+    "itemName": "Mort\u0027ton teleport",
+    "quantity": "5–15",
+    "rarity": "1/340.5",
+    "weight": 169535
+  },
+  {
+    "itemId": 12404,
+    "itemName": "Feldip hills teleport",
+    "quantity": "5–15",
+    "rarity": "1/340.5",
+    "weight": 169535
+  },
+  {
+    "itemId": 12405,
+    "itemName": "Lunar isle teleport",
+    "quantity": "5–15",
+    "rarity": "1/340.5",
+    "weight": 169535
+  },
+  {
+    "itemId": 12403,
+    "itemName": "Digsite teleport",
+    "quantity": "5–15",
+    "rarity": "1/340.5",
+    "weight": 169535
+  },
+  {
+    "itemId": 12408,
+    "itemName": "Piscatoris teleport",
+    "quantity": "5–15",
+    "rarity": "1/340.5",
+    "weight": 169535
+  },
+  {
+    "itemId": 12407,
+    "itemName": "Pest control teleport",
+    "quantity": "5–15",
+    "rarity": "1/340.5",
+    "weight": 169535
+  },
+  {
+    "itemId": 12409,
+    "itemName": "Tai bwo wannai teleport",
+    "quantity": "5–15",
+    "rarity": "1/340.5",
+    "weight": 169535
+  },
+  {
+    "itemId": 12642,
+    "itemName": "Lumberyard teleport",
+    "quantity": "5–15",
+    "rarity": "1/340.5",
+    "weight": 169535
+  },
+  {
+    "itemId": 12410,
+    "itemName": "Iorwerth camp teleport",
+    "quantity": "5–15",
+    "rarity": "1/340.5",
+    "weight": 169535
+  },
+  {
+    "itemId": 21387,
+    "itemName": "Master scroll book (empty)",
+    "quantity": "1",
+    "rarity": "1/595.8",
+    "weight": 96999
+  },
+  {
+    "itemId": 3827,
+    "itemName": "Saradomin page 1",
+    "quantity": "1",
+    "rarity": "1/650",
+    "weight": 88941
+  },
+  {
+    "itemId": 3828,
+    "itemName": "Saradomin page 2",
+    "quantity": "1",
+    "rarity": "1/650",
+    "weight": 88941
+  },
+  {
+    "itemId": 3829,
+    "itemName": "Saradomin page 3",
+    "quantity": "1",
+    "rarity": "1/650",
+    "weight": 88941
+  },
+  {
+    "itemId": 3830,
+    "itemName": "Saradomin page 4",
+    "quantity": "1",
+    "rarity": "1/650",
+    "weight": 88941
+  },
+  {
+    "itemId": 3831,
+    "itemName": "Zamorak page 1",
+    "quantity": "1",
+    "rarity": "1/650",
+    "weight": 88941
+  },
+  {
+    "itemId": 3832,
+    "itemName": "Zamorak page 2",
+    "quantity": "1",
+    "rarity": "1/650",
+    "weight": 88941
+  },
+  {
+    "itemId": 3833,
+    "itemName": "Zamorak page 3",
+    "quantity": "1",
+    "rarity": "1/650",
+    "weight": 88941
+  },
+  {
+    "itemId": 3834,
+    "itemName": "Zamorak page 4",
+    "quantity": "1",
+    "rarity": "1/650",
+    "weight": 88941
+  },
+  {
+    "itemId": 3835,
+    "itemName": "Guthix page 1",
+    "quantity": "1",
+    "rarity": "1/650",
+    "weight": 88941
+  },
+  {
+    "itemId": 3836,
+    "itemName": "Guthix page 2",
+    "quantity": "1",
+    "rarity": "1/650",
+    "weight": 88941
+  },
+  {
+    "itemId": 3837,
+    "itemName": "Guthix page 3",
+    "quantity": "1",
+    "rarity": "1/650",
+    "weight": 88941
+  },
+  {
+    "itemId": 3838,
+    "itemName": "Guthix page 4",
+    "quantity": "1",
+    "rarity": "1/650",
+    "weight": 88941
+  },
+  {
+    "itemId": 12613,
+    "itemName": "Bandos page 1",
+    "quantity": "1",
+    "rarity": "1/650",
+    "weight": 88941
+  },
+  {
+    "itemId": 12614,
+    "itemName": "Bandos page 2",
+    "quantity": "1",
+    "rarity": "1/650",
+    "weight": 88941
+  },
+  {
+    "itemId": 12615,
+    "itemName": "Bandos page 3",
+    "quantity": "1",
+    "rarity": "1/650",
+    "weight": 88941
+  },
+  {
+    "itemId": 12616,
+    "itemName": "Bandos page 4",
+    "quantity": "1",
+    "rarity": "1/650",
+    "weight": 88941
+  },
+  {
+    "itemId": 12617,
+    "itemName": "Armadyl page 1",
+    "quantity": "1",
+    "rarity": "1/650",
+    "weight": 88941
+  },
+  {
+    "itemId": 12618,
+    "itemName": "Armadyl page 2",
+    "quantity": "1",
+    "rarity": "1/650",
+    "weight": 88941
+  },
+  {
+    "itemId": 12619,
+    "itemName": "Armadyl page 3",
+    "quantity": "1",
+    "rarity": "1/650",
+    "weight": 88941
+  },
+  {
+    "itemId": 12620,
+    "itemName": "Armadyl page 4",
+    "quantity": "1",
+    "rarity": "1/650",
+    "weight": 88941
+  },
+  {
+    "itemId": 12621,
+    "itemName": "Ancient page 1",
+    "quantity": "1",
+    "rarity": "1/650",
+    "weight": 88941
+  },
+  {
+    "itemId": 12622,
+    "itemName": "Ancient page 2",
+    "quantity": "1",
+    "rarity": "1/650",
+    "weight": 88941
+  },
+  {
+    "itemId": 12623,
+    "itemName": "Ancient page 3",
+    "quantity": "1",
+    "rarity": "1/650",
+    "weight": 88941
+  },
+  {
+    "itemId": 12624,
+    "itemName": "Ancient page 4",
+    "quantity": "1",
+    "rarity": "1/650",
+    "weight": 88941
+  }
+//Removed
+  //{
+//   "itemId": 19835,
+//   "itemName": "Clue scroll (master)",
+//   "quantity": "1",
+//   "rarity": "1/15",
+//    "weight": 3854114
+// }
+]

@@ -1,0 +1,44 @@
+[
+  {
+    "tier": "beginner",
+    "chatTrigger": "You have a sneaking suspicion that you would have received a beginner clue scroll.",
+    "jsonResource": "/beginner_clues.json",
+    "minItems": 1,
+    "maxItems": 3
+  },
+  {
+    "tier": "easy",
+    "chatTrigger": "You have a sneaking suspicion that you would have received an easy clue scroll.",
+    "jsonResource": "/easy_clues.json",
+    "minItems": 2,
+    "maxItems": 4
+  },
+  {
+    "tier": "medium",
+    "chatTrigger": "You have a sneaking suspicion that you would have received a medium clue scroll.",
+    "jsonResource": "/medium_clues.json",
+    "minItems": 3,
+    "maxItems": 5
+  },
+  {
+    "tier": "hard",
+    "chatTrigger": "You have a sneaking suspicion that you would have received a hard clue scroll.",
+    "jsonResource": "/hard_clues.json",
+    "minItems": 4,
+    "maxItems": 6
+  },
+  {
+    "tier": "elite",
+    "chatTrigger": "You have a sneaking suspicion that you would have received an elite clue scroll.",
+    "jsonResource": "/elite_clues.json",
+    "minItems": 4,
+    "maxItems": 6
+  },
+  {
+    "tier": "master",
+    "chatTrigger": "You have a sneaking suspicion that you would have received a master clue scroll.",
+    "jsonResource": "/master_clues.json",
+    "minItems": 4,
+    "maxItems": 6
+  }
+]
