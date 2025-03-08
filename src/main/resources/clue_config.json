@@ -38,7 +38,7 @@
     "tier": "master",
     "chatTrigger": "You have a sneaking suspicion that you would have received a master clue scroll.",
     "jsonResource": "/master_clues.json",
-    "minItems": 4,
-    "maxItems": 6
+    "minItems": 5,
+    "maxItems": 7
   }
 ]
