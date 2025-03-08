@@ -74,8 +74,19 @@ public class Overlay extends net.runelite.client.ui.overlay.Overlay
         final int canvasWidth = client.getCanvasWidth();
         final int canvasHeight = client.getCanvasHeight();
 
-        final int startX = canvasWidth / 2 - 24;
-        final int startY = canvasHeight / 3 - 24;
+        final int startX;
+        final int startY;
+
+        if (canvasWidth <= 1000 && canvasHeight <= 650)
+        {
+            startX = (canvasWidth - 309) / 2;
+            startY = (canvasHeight - 296) / 2;
+        }
+        else
+        {
+            startX = canvasWidth / 2 - 24;
+            startY = canvasHeight / 3 - 24;
+        }
 
         if (incineratorImage != null)
         {
