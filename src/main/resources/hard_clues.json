@@ -1266,29 +1266,29 @@
     "rarity": "1/27.1",
     "weight": 2141174
   },
-  //{
-  //  "itemId": 617,
-  //  "itemName": "Coins",
-  //  "quantity": "1000–5000",
-  //  "rarity": "1/27.1",
-  //  "weight": 2141174
-  //},
-  //{
-  //  "itemId": 617,
-  //  "itemName": "Coins",
-  //  "quantity": "10000–15000",
-  //  "rarity": "1/77.4",
-  //  "weight": 750801
-  //},
   {
-    "itemId": 4561,
+    "itemId": 995,
+    "itemName": "Coins",
+    "quantity": "1000–5000",
+    "rarity": "1/27.1",
+    "weight": 2141174
+  },
+  {
+    "itemId": 995,
+    "itemName": "Coins",
+    "quantity": "10000–15000",
+    "rarity": "1/77.4",
+    "weight": 750801
+  },
+  {
+    "itemId": 10476,
     "itemName": "Purple sweets",
     "quantity": "7–15",
     "rarity": "1/27.1",
     "weight": 2141174
   },
   {
-    "itemId": 4561,
+    "itemId": 10476,
     "itemName": "Purple sweets",
     "quantity": "8–12",
     "rarity": "1/77.4",
@@ -1630,12 +1630,4 @@
     "rarity": "1/650",
     "weight": 88941
   }
-//Removed
-  //{
-//   "itemId": 19835,
-//   "itemName": "Clue scroll (master)",
-//   "quantity": "1",
-//   "rarity": "1/15",
-//    "weight": 3854114
-// }
 ]

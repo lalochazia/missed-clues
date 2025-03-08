@@ -839,36 +839,36 @@
     "rarity": "1/91",
     "weight": 4898222
   },
-  //{
-  //  "itemId": 617,
-  //  "itemName": "Coins",
-  //  "quantity": "20000–35000",
-  //  "rarity": "1/30.3",
-  //  "weight": 14857941
-  //},
-  //{
-  //  "itemId": 617,
-  //  "itemName": "Coins",
-  //  "quantity": "10000–15000",
-  //  "rarity": "1/86.6",
-  //  "weight": 5123428
-  //},
-  //{
-  //  "itemId": 617,
-  // "itemName": "Coins",
-  //  "quantity": "15000–30000",
-  //  "rarity": "1/381",
-  //  "weight": 1169916
-  //},
   {
-    "itemId": 4561,
+    "itemId": 995,
+    "itemName": "Coins",
+    "quantity": "20000–35000",
+    "rarity": "1/30.3",
+    "weight": 14857941
+  },
+  {
+    "itemId": 995,
+    "itemName": "Coins",
+    "quantity": "10000–15000",
+    "rarity": "1/86.6",
+    "weight": 5123428
+  },
+  {
+    "itemId": 995,
+   "itemName": "Coins",
+    "quantity": "15000–30000",
+    "rarity": "1/381",
+    "weight": 1169916
+  },
+  {
+    "itemId": 10476,
     "itemName": "Purple sweets",
     "quantity": "14–33",
     "rarity": "1/30.3",
     "weight": 14857941
   },
   {
-    "itemId": 4561,
+    "itemId": 10476,
     "itemName": "Purple sweets",
     "quantity": "8–12",
     "rarity": "1/86.6",

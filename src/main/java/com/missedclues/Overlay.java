@@ -16,6 +16,7 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class Overlay extends net.runelite.client.ui.overlay.Overlay
 {
@@ -27,6 +28,17 @@ public class Overlay extends net.runelite.client.ui.overlay.Overlay
     private Rectangle closeButtonBounds;
     private boolean displayItems;
     private List<ItemStack> itemStacks = new ArrayList<>();
+
+    private static final Set<Integer> NOTED_IDS = Set.of(
+            12913, 269, 391, 245, 225, 207, 3049, 3051, 451, 2363,
+            1747, 1391, 11951, 3024, 6685, 2444, 7060, 7218, 8778,
+            8780, 8782, 3016, 2452, 2436, 379, 385, 373, 333,
+            329, 1965, 315, 325, 347
+    );
+
+    private static final Set<Integer> QUANTITY_SENSITIVE_IDS = Set.of(
+            882, 884, 995, 4561, 9194, 9245, 10476, 5289, 5315, 5316, 617
+    );
 
     @Inject
     public Overlay(Client client, ItemManager itemManager)
@@ -99,14 +111,17 @@ public class Overlay extends net.runelite.client.ui.overlay.Overlay
                 int closeX = incX + incineratorImage.getWidth() - closeButtonImage.getWidth() + 40;
                 int closeY = incY + 15;
 
-                closeButtonBounds = new Rectangle(closeX, closeY,
-                        closeButtonImage.getWidth(), closeButtonImage.getHeight());
+                closeButtonBounds = new Rectangle(
+                        closeX,
+                        closeY,
+                        closeButtonImage.getWidth(),
+                        closeButtonImage.getHeight()
+                );
 
                 net.runelite.api.Point netMousePos = client.getMouseCanvasPosition();
                 Point mousePos = new Point(netMousePos.getX(), netMousePos.getY());
 
                 boolean isHovered = closeButtonBounds.contains(mousePos);
-
                 BufferedImage toDraw = isHovered ? closeButtonHoveredImage : closeButtonImage;
                 graphics.drawImage(toDraw, closeX, closeY, null);
             }
@@ -122,11 +137,26 @@ public class Overlay extends net.runelite.client.ui.overlay.Overlay
             int itemId = stack.getItemId();
             int quantity = stack.getQuantity();
 
-            BufferedImage itemImage = itemManager.getImage(itemId);
+            if (NOTED_IDS.contains(itemId))
+            {
+                itemId += 1;
+            }
+
+            BufferedImage itemImage;
+            if (QUANTITY_SENSITIVE_IDS.contains(stack.getItemId()))
+            {
+                itemImage = itemManager.getImage(itemId, quantity, true);
+            }
+            else
+            {
+                itemImage = itemManager.getImage(itemId);
+            }
+
             if (itemImage != null)
             {
                 graphics.drawImage(itemImage, x, y, null);
-                if (quantity > 1)
+
+                if (quantity > 1 && !QUANTITY_SENSITIVE_IDS.contains(stack.getItemId()))
                 {
                     String qtyText = String.valueOf(quantity);
                     FontMetrics fm = graphics.getFontMetrics();

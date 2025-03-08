@@ -9,10 +9,7 @@ public class RewardItem
     private String itemName;
     private String quantity;
     private String rarity;
-    private int weight; // Used for weighting the random selection
-    public RewardItem()
-    {
-    }
+    private int weight;
 
     public RewardItem(int itemId, String itemName, String quantity, String rarity, int weight)
     {
@@ -28,19 +25,9 @@ public class RewardItem
         return itemId;
     }
 
-    public void setItemId(int itemId)
-    {
-        this.itemId = itemId;
-    }
-
     public String getItemName()
     {
         return itemName;
-    }
-
-    public void setItemName(String itemName)
-    {
-        this.itemName = itemName;
     }
 
     public String getQuantity()
@@ -58,26 +45,16 @@ public class RewardItem
         return rarity;
     }
 
-    public void setRarity(String rarity)
-    {
-        this.rarity = rarity;
-    }
-
     public int getWeight()
     {
         return weight;
-    }
-
-    public void setWeight(int weight)
-    {
-        this.weight = weight;
     }
 
     public int getParsedQuantity()
     {
         if (quantity == null || quantity.trim().isEmpty())
         {
-            return 1; // fallback
+            return 1;
         }
 
         String normalized = quantity.replace("–", "-").trim();

@@ -559,13 +559,13 @@
     "rarity": "1/1,404",
     "weight": 24200
   },
-  //{
-  //  "itemId": 617,
-  //  "itemName": "Coins",
-  //  "quantity": "3400–8200",
-  //  "rarity": "4/7,020",
-  //  "weight": 19360
-  //},
+  {
+    "itemId": 995,
+    "itemName": "Coins",
+    "quantity": "3400–8200",
+    "rarity": "4/7,020",
+    "weight": 19360
+  },
   {
     "itemId": 20199,
     "itemName": "Monk\u0027s robe top (g)",
@@ -1105,36 +1105,36 @@
     "rarity": "11/396",
     "weight": 943800
   },
-  //{
-  //  "itemId": 617,
-  //  "itemName": "Coins",
-  //  "quantity": "50–200",
-  //  "rarity": "11/396",
-  //  "weight": 943800
-  //},
-  //{
-  //  "itemId": 617,
-  //  "itemName": "Coins",
-  //  "quantity": "3000–7000",
-  //  "rarity": "22/1,188",
-  //  "weight": 629200
-  //},
-  //{
-  //  "itemId": 617,
-  //  "itemName": "Coins",
-  //  "quantity": "10000–15000",
-  //  "rarity": "77/23,760",
-  //  "weight": 70654
-  //},
   {
-    "itemId": 4561,
+    "itemId": 995,
+    "itemName": "Coins",
+    "quantity": "50–200",
+    "rarity": "11/396",
+    "weight": 943800
+  },
+  {
+    "itemId": 995,
+    "itemName": "Coins",
+    "quantity": "3000–7000",
+    "rarity": "22/1,188",
+    "weight": 629200
+  },
+  {
+    "itemId": 995,
+    "itemName": "Coins",
+    "quantity": "10000–15000",
+    "rarity": "77/23,760",
+    "weight": 70654
+  },
+  {
+    "itemId": 10476,
     "itemName": "Purple sweets",
     "quantity": "2–6",
     "rarity": "11/396",
     "weight": 943800
   },
   {
-    "itemId": 4561,
+    "itemId": 10476,
     "itemName": "Purple sweets",
     "quantity": "8–12",
     "rarity": "77/23,760",
@@ -1476,12 +1476,4 @@
     "rarity": "11/9,504",
     "weight": 39325
   }
- // Removed
-  // {
- //   "itemId": 19835,
- //   "itemName": "Clue scroll (master)",
- //   "quantity": "1",
- //   "rarity": "1/50",
- //   "weight": 679536
- // }
 ]
