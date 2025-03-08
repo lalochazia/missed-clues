@@ -15,9 +15,9 @@ import net.runelite.client.input.MouseManager;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.ui.overlay.OverlayManager;
+import javax.inject.Inject;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import javax.inject.Inject;
 import java.awt.event.MouseEvent;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -49,6 +49,9 @@ public class MissedCluesPlugin extends Plugin
 	@Inject
 	private MouseManager mouseManager;
 
+	@Inject
+	private Gson gson;
+
 	private final Random random = new Random();
 
 	private final KeyAdapter escKeyListener = new KeyAdapter()
@@ -62,10 +65,6 @@ public class MissedCluesPlugin extends Plugin
 			}
 		}
 	};
-
-	private List<ClueConfiguration> clueConfigs = new ArrayList<>();
-
-	private final Map<String, List<RewardItem>> rewardTables = new HashMap<>();
 
 	private final MouseAdapter mouseListener = new MouseAdapter()
 	{
@@ -84,6 +83,9 @@ public class MissedCluesPlugin extends Plugin
 		}
 	};
 
+	private List<ClueConfiguration> clueConfigs = new ArrayList<>();
+	private final Map<String, List<RewardItem>> rewardTables = new HashMap<>();
+
 	@Provides
 	MissedCluesConfig provideConfig(ConfigManager configManager)
 	{
@@ -100,7 +102,6 @@ public class MissedCluesPlugin extends Plugin
 
 		overlayManager.add(overlay);
 
-		// Register our mouse listener
 		mouseManager.registerMouseListener(mouseListener);
 		client.getCanvas().addKeyListener(escKeyListener);
 	}
@@ -219,7 +220,6 @@ public class MissedCluesPlugin extends Plugin
 				return;
 			}
 
-			Gson gson = new Gson();
 			clueConfigs = gson.fromJson(
 					new InputStreamReader(is, StandardCharsets.UTF_8),
 					new TypeToken<List<ClueConfiguration>>() {}.getType()
@@ -243,7 +243,7 @@ public class MissedCluesPlugin extends Plugin
 					log.warn("Failed to locate {}", cfg.getJsonResource());
 					continue;
 				}
-				Gson gson = new Gson();
+				
 				List<RewardItem> items = gson.fromJson(
 						new InputStreamReader(is, StandardCharsets.UTF_8),
 						new TypeToken<List<RewardItem>>() {}.getType()
@@ -352,6 +352,5 @@ public class MissedCluesPlugin extends Plugin
 		overlay.displayItems(false);
 		overlay.setItemStacks(stacks);
 		overlay.displayItems(true);
-
 	}
 }
