@@ -47,7 +47,7 @@ public class Overlay extends net.runelite.client.ui.overlay.Overlay
         this.itemManager = itemManager;
 
         setPosition(OverlayPosition.DYNAMIC);
-        setLayer(OverlayLayer.ABOVE_SCENE);
+        setLayer(OverlayLayer.ABOVE_WIDGETS);
         setPriority(200.0f);
 
         incineratorImage = ImageUtil.loadImageResource(getClass(), "/incinerator.png");
@@ -167,14 +167,15 @@ public class Overlay extends net.runelite.client.ui.overlay.Overlay
                     graphics.setColor(Color.YELLOW);
                     graphics.drawString(qtyText, textX, textY);
                 }
+
                 if ((i + 1) % itemsPerRow == 0)
                 {
                     x = startX;
-                    y += itemImage.getHeight() + 10;
+                    y += itemImage.getHeight() + 5;
                 }
                 else
                 {
-                    x += itemImage.getWidth() + 10;
+                    x += itemImage.getWidth() + 5;
                 }
             }
         }

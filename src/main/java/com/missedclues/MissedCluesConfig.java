@@ -3,62 +3,209 @@ package com.missedclues;
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
+import net.runelite.client.config.ConfigSection;
 
 @ConfigGroup("Clue Tiers")
 public interface MissedCluesConfig extends Config
 {
-	@ConfigItem(
-			keyName = "beginnerToggle",
-			name = "Show Missed Beginner Clues",
-			description = "Do not show simulated beginner clues on receiving a missed clue message.",
-			position = 0
+	@ConfigSection(
+			name = "Clue Tiers Configuration",
+			description = "Configures how to display each clue tier.",
+			position = 0,
+			closedByDefault = false
 	)
-	default boolean beginnerToggle() {
-		return true;
-	}
+	String SECTION_CLUE_TIERS = "clueTiers";
+
 	@ConfigItem(
-			keyName = "easyToggle",
-			name = "Show Missed Easy Clues",
-			description = "Do not show simulated easy clues on receiving a missed clue message.",
-			position = 1
+			keyName = "beginnerDisplay",
+			name = "Beginner Clues",
+			description = "Configures how to show missed beginner clues.",
+			position = 0,
+			section = "clueTiers"
 	)
-	default boolean easyToggle() {
-		return true;
+	default DisplayType beginnerDisplay()
+	{
+		return DisplayType.BOTH;
 	}
+
 	@ConfigItem(
-			keyName = "mediumToggle",
-			name = "Show Missed Medium Clues",
-			description = "Do not show simulated medium clues on receiving a missed clue message.",
-			position = 2
+			keyName = "easyDisplay",
+			name = "Easy Clues",
+			description = "Configures how to show missed easy clues.",
+			position = 1,
+			section = "clueTiers"
 	)
-	default boolean mediumToggle() {
-		return true;
+	default DisplayType easyDisplay()
+	{
+		return DisplayType.BOTH;
 	}
+
 	@ConfigItem(
-			keyName = "hardToggle",
-			name = "Show Missed Hard Clues",
-			description = "Do not show simulated hard clues on receiving a missed clue message.",
-			position = 3
+			keyName = "mediumDisplay",
+			name = "Medium Clues",
+			description = "Configures how to show missed medium clues.",
+			position = 2,
+			section = "clueTiers"
 	)
-	default boolean hardToggle() {
-		return true;
+	default DisplayType mediumDisplay()
+	{
+		return DisplayType.BOTH;
 	}
+
 	@ConfigItem(
-			keyName = "eliteToggle",
-			name = "Show Missed Elite Clues",
-			description = "Do not show simulated elite clues on receiving a missed clue message.",
-			position = 4
+			keyName = "hardDisplay",
+			name = "Hard Clues",
+			description = "Configures how to show missed hard clues.",
+			position = 3,
+			section = "clueTiers"
 	)
-	default boolean eliteToggle() {
-		return true;
+	default DisplayType hardDisplay()
+	{
+		return DisplayType.BOTH;
 	}
+
 	@ConfigItem(
-			keyName = "masterToggle",
-			name = "Show Missed Master Clues",
-			description = "Do not show simulated master clues on receiving a missed clue message.",
-			position = 5
+			keyName = "eliteDisplay",
+			name = "Elite Clues",
+			description = "Configures how to show missed elite clues.",
+			position = 4,
+			section = "clueTiers"
 	)
-	default boolean masterToggle() {
-		return true;
+	default DisplayType eliteDisplay()
+	{
+		return DisplayType.BOTH;
 	}
+
+	@ConfigItem(
+			keyName = "masterDisplay",
+			name = "Master Clues",
+			description = "Configures how to show missed master clues.",
+			position = 5,
+			section = "clueTiers"
+	)
+	default DisplayType masterDisplay()
+	{
+		return DisplayType.BOTH;
+	}
+
+	@ConfigItem(
+			keyName = "missedBeginnerCount",
+			name = "Missed Beginner Clues",
+			description = "Count of missed Beginner clues",
+			hidden = true
+	)
+	default int missedBeginnerCount()
+	{
+		return 0;
+	}
+
+	@ConfigItem(
+			keyName = "missedBeginnerCount",
+			name = "Missed Beginner Clues",
+			description = "Count of missed Beginner clues",
+			hidden = true
+	)
+	void missedBeginnerCount(int count);
+
+
+	@ConfigItem(
+			keyName = "missedEasyCount",
+			name = "Missed Easy Clues",
+			description = "Count of missed Easy clues",
+			hidden = true
+	)
+	default int missedEasyCount()
+	{
+		return 0;
+	}
+
+	@ConfigItem(
+			keyName = "missedEasyCount",
+			name = "Missed Easy Clues",
+			description = "Count of missed Easy clues",
+			hidden = true
+	)
+	void missedEasyCount(int count);
+
+
+	@ConfigItem(
+			keyName = "missedMediumCount",
+			name = "Missed Medium Clues",
+			description = "Count of missed Medium clues",
+			hidden = true
+	)
+	default int missedMediumCount()
+	{
+		return 0;
+	}
+
+	@ConfigItem(
+			keyName = "missedMediumCount",
+			name = "Missed Medium Clues",
+			description = "Count of missed Medium clues",
+			hidden = true
+	)
+	void missedMediumCount(int count);
+
+
+	@ConfigItem(
+			keyName = "missedHardCount",
+			name = "Missed Hard Clues",
+			description = "Count of missed Hard clues",
+			hidden = true
+	)
+	default int missedHardCount()
+	{
+		return 0;
+	}
+
+	@ConfigItem(
+			keyName = "missedHardCount",
+			name = "Missed Hard Clues",
+			description = "Count of missed Hard clues",
+			hidden = true
+	)
+	void missedHardCount(int count);
+
+
+	@ConfigItem(
+			keyName = "missedEliteCount",
+			name = "Missed Elite Clues",
+			description = "Count of missed Elite clues",
+			hidden = true
+	)
+	default int missedEliteCount()
+	{
+		return 0;
+	}
+
+	@ConfigItem(
+			keyName = "missedEliteCount",
+			name = "Missed Elite Clues",
+			description = "Count of missed Elite clues",
+			hidden = true
+	)
+	void missedEliteCount(int count);
+
+
+	@ConfigItem(
+			keyName = "missedMasterCount",
+			name = "Missed Master Clues",
+			description = "Count of missed Master clues",
+			hidden = true
+	)
+	default int missedMasterCount()
+	{
+		return 0;
+	}
+
+	@ConfigItem(
+			keyName = "missedMasterCount",
+			name = "Missed Master Clues",
+			description = "Count of missed Master clues",
+			hidden = true
+	)
+	void missedMasterCount(int count);
+
+
 }

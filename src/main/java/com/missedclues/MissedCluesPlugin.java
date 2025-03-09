@@ -15,6 +15,7 @@ import net.runelite.client.input.MouseManager;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.ui.overlay.OverlayManager;
+
 import javax.inject.Inject;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -129,7 +130,46 @@ public class MissedCluesPlugin extends Plugin
 			return;
 		}
 
-		if (!isTierEnabled(clueConfig.getTier()))
+		DisplayType displayType = getDisplayTypeForTier(clueConfig.getTier());
+
+		int currentCount;
+		switch (clueConfig.getTier().toLowerCase())
+		{
+			case "beginner":
+				currentCount = config.missedBeginnerCount() + 1;
+				config.missedBeginnerCount(currentCount);
+				break;
+
+			case "easy":
+				currentCount = config.missedEasyCount() + 1;
+				config.missedEasyCount(currentCount);
+				break;
+
+			case "medium":
+				currentCount = config.missedMediumCount() + 1;
+				config.missedMediumCount(currentCount);
+				break;
+
+			case "hard":
+				currentCount = config.missedHardCount() + 1;
+				config.missedHardCount(currentCount);
+				break;
+
+			case "elite":
+				currentCount = config.missedEliteCount() + 1;
+				config.missedEliteCount(currentCount);
+				break;
+
+			case "master":
+				currentCount = config.missedMasterCount() + 1;
+				config.missedMasterCount(currentCount);
+				break;
+
+			default:
+				return;
+		}
+
+		if (displayType == DisplayType.NONE)
 		{
 			return;
 		}
@@ -137,12 +177,15 @@ public class MissedCluesPlugin extends Plugin
 		List<RewardItem> rewardList = rewardTables.get(clueConfig.getChatTrigger());
 		if (rewardList == null || rewardList.isEmpty())
 		{
-			client.addChatMessage(
-					ChatMessageType.GAMEMESSAGE,
-					"",
-					"No rewards found for " + clueConfig.getChatTrigger(),
-					null
-			);
+			if (displayType == DisplayType.BOTH || displayType == DisplayType.CHAT_MESSAGE)
+			{
+				client.addChatMessage(
+						ChatMessageType.GAMEMESSAGE,
+						"",
+						"No rewards found for " + clueConfig.getChatTrigger(),
+						null
+				);
+			}
 			return;
 		}
 
@@ -155,58 +198,75 @@ public class MissedCluesPlugin extends Plugin
 
 		if (chosenItems.isEmpty())
 		{
-			client.addChatMessage(
-					ChatMessageType.GAMEMESSAGE,
-					"",
-					"Could not select any weighted items.",
-					null
-			);
+			if (displayType == DisplayType.BOTH || displayType == DisplayType.CHAT_MESSAGE)
+			{
+				client.addChatMessage(
+						ChatMessageType.GAMEMESSAGE,
+						"",
+						"Could not select any weighted items.",
+						null
+				);
+			}
 			return;
 		}
 
-		client.addChatMessage(
-				ChatMessageType.GAMEMESSAGE,
-				"",
-				"You have a funny feeling you would have received:",
-				null
-		);
-
-		for (RewardItem item : chosenItems)
+		if (displayType == DisplayType.CHAT_MESSAGE || displayType == DisplayType.BOTH)
 		{
+			String itemsList = chosenItems.stream()
+					.map(item -> item.getQuantity() + "x " + item.getItemName())
+					.collect(Collectors.joining(", "));
+
 			client.addChatMessage(
 					ChatMessageType.GAMEMESSAGE,
 					"",
-					item.getQuantity() + "x " + item.getItemName(),
+					"You have a funny feeling you would have received: " + itemsList,
+					null
+			);
+
+			long totalPrice = 0;
+			for (RewardItem item : chosenItems)
+			{
+				int gePriceEach = itemManager.getItemPrice(item.getItemId());
+				totalPrice += (long) gePriceEach * item.getParsedQuantity();
+			}
+
+			String formattedPrice = String.format("%,d", totalPrice);
+			client.addChatMessage(
+					ChatMessageType.GAMEMESSAGE,
+					"",
+					"Your loot would have been worth " + formattedPrice + " coins!",
+					null
+			);
+			client.addChatMessage(
+					ChatMessageType.GAMEMESSAGE,
+					"",
+					"Your missed " + clueConfig.getTier() + " clue count is: <col=ff0000>" + currentCount + "</col>",
 					null
 			);
 		}
 
-		showItemsInOverlay(chosenItems);
+		if (displayType == DisplayType.OVERLAY || displayType == DisplayType.BOTH)
+		{
+			showItemsInOverlay(chosenItems);
+		}
 	}
 
-	private boolean isTierEnabled(String tier)
+	private DisplayType getDisplayTypeForTier(String tier)
 	{
 		if (tier == null)
 		{
-			return false;
+			return DisplayType.NONE;
 		}
 
 		switch (tier.toLowerCase())
 		{
-			case "beginner":
-				return config.beginnerToggle();
-			case "easy":
-				return config.easyToggle();
-			case "medium":
-				return config.mediumToggle();
-			case "hard":
-				return config.hardToggle();
-			case "elite":
-				return config.eliteToggle();
-			case "master":
-				return config.masterToggle();
-			default:
-				return true;
+			case "beginner": return config.beginnerDisplay();
+			case "easy":     return config.easyDisplay();
+			case "medium":   return config.mediumDisplay();
+			case "hard":     return config.hardDisplay();
+			case "elite":    return config.eliteDisplay();
+			case "master":   return config.masterDisplay();
+			default:         return DisplayType.NONE;
 		}
 	}
 
@@ -243,7 +303,7 @@ public class MissedCluesPlugin extends Plugin
 					log.warn("Failed to locate {}", cfg.getJsonResource());
 					continue;
 				}
-				
+
 				List<RewardItem> items = gson.fromJson(
 						new InputStreamReader(is, StandardCharsets.UTF_8),
 						new TypeToken<List<RewardItem>>() {}.getType()
@@ -330,21 +390,6 @@ public class MissedCluesPlugin extends Plugin
 
 	private void showItemsInOverlay(List<RewardItem> chosenItems)
 	{
-		long totalPrice = 0;
-		for (RewardItem item : chosenItems)
-		{
-			int gePriceEach = itemManager.getItemPrice(item.getItemId());
-			totalPrice += (long) gePriceEach * item.getParsedQuantity();
-		}
-
-		String formattedPrice = String.format("%,d", totalPrice);
-		client.addChatMessage(
-				ChatMessageType.GAMEMESSAGE,
-				"",
-				"Your loot would have been worth " + formattedPrice + " coins!",
-				null
-		);
-
 		List<ItemStack> stacks = chosenItems.stream()
 				.map(item -> new ItemStack(item.getItemId(), item.getParsedQuantity()))
 				.collect(Collectors.toList());
