@@ -15,7 +15,6 @@ import net.runelite.client.input.MouseManager;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.ui.overlay.OverlayManager;
-
 import javax.inject.Inject;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -52,6 +51,9 @@ public class MissedCluesPlugin extends Plugin
 
 	@Inject
 	private Gson gson;
+
+	@Inject
+	private ConfigManager configManager;
 
 	private final Random random = new Random();
 
@@ -97,12 +99,10 @@ public class MissedCluesPlugin extends Plugin
 	protected void startUp()
 	{
 		log.info("Missed Clues plugin started!");
-
 		loadClueConfigs();
+		migrateConfig();
 		loadAllRewardTables();
-
 		overlayManager.add(overlay);
-
 		mouseManager.registerMouseListener(mouseListener);
 		client.getCanvas().addKeyListener(escKeyListener);
 	}
@@ -397,5 +397,34 @@ public class MissedCluesPlugin extends Plugin
 		overlay.displayItems(false);
 		overlay.setItemStacks(stacks);
 		overlay.displayItems(true);
+	}
+
+	private void migrateConfig() {
+		String migrated = configManager.getConfiguration("Clue Tiers", "migrated");
+		if ("1".equals(migrated)) {
+			return;
+		}
+
+		String[][] toggleMappings = {
+				{"beginnerToggle", "beginnerDisplay"},
+				{"easyToggle", "easyDisplay"},
+				{"mediumToggle", "mediumDisplay"},
+				{"hardToggle", "hardDisplay"},
+				{"eliteToggle", "eliteDisplay"},
+				{"masterToggle", "masterDisplay"}
+		};
+
+		for (String[] mapping : toggleMappings) {
+			String oldKey = mapping[0];
+			String newKey = mapping[1];
+
+			Boolean oldValue = configManager.getConfiguration("Clue Tiers", oldKey, Boolean.class);
+			if (oldValue != null) {
+				DisplayType newValue = oldValue ? DisplayType.BOTH : DisplayType.NONE;
+				configManager.setConfiguration("Clue Tiers", newKey, newValue);
+			}
+		}
+
+		configManager.setConfiguration("Clue Tiers", "migrated", 1);
 	}
 }
