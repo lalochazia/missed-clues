@@ -38,7 +38,6 @@ import net.runelite.client.ui.DrawManager;
 import net.runelite.client.util.ImageCapture;
 import java.util.concurrent.ScheduledExecutorService;
 import net.runelite.api.ItemComposition;
-
 import net.runelite.api.events.ItemContainerChanged;
 import net.runelite.api.ItemContainer;
 import net.runelite.api.InventoryID;
@@ -46,8 +45,10 @@ import net.runelite.api.Item;
 import net.runelite.api.ItemID;
 import net.runelite.client.chat.ChatMessageManager;
 import net.runelite.client.chat.QueuedMessage;
-
-
+import net.runelite.api.events.WidgetLoaded;
+import net.runelite.api.widgets.Widget;
+import net.runelite.api.widgets.WidgetID;
+import net.runelite.client.callback.ClientThread;
 
 @Slf4j
 @PluginDescriptor(
@@ -63,6 +64,9 @@ public class MissedCluesPlugin extends Plugin
 
 	@Inject
 	private ChatMessageManager chatMessageManager;
+
+	@Inject
+	private ClientThread clientThread;
 
 
 	@Inject
@@ -96,7 +100,6 @@ public class MissedCluesPlugin extends Plugin
 	{
 		Consumer<Image> imageCallback = (img) ->
 		{
-			// This runs on the game thread, move to executor thread
 			executor.submit(() -> {
 				try
 				{
@@ -118,6 +121,23 @@ public class MissedCluesPlugin extends Plugin
 	}
 
 	private final Random random = new Random();
+
+	@Subscribe
+	public void onWidgetLoaded(WidgetLoaded event) {
+		int groupId = event.getGroupId();
+		if (groupId == WidgetID.DIALOG_SPRITE_GROUP_ID) {
+			clientThread.invokeLater(() -> {
+				Widget spriteText = client.getWidget(WidgetID.DIALOG_SPRITE_GROUP_ID, 2);
+				if (spriteText != null && "Watson hands you a master clue scroll.".equals(spriteText.getText())) {
+					chatMessageManager.queue(QueuedMessage.builder()
+							.type(ChatMessageType.GAMEMESSAGE)
+							.runeLiteFormattedMessage("You have a funny feeling Watson has done your clues...")
+							.build());
+					rollAllTiers();
+				}
+			});
+		}
+	}
 
 	private static final Pattern MISSED_CLUES_PATTERN = Pattern.compile("^!missed (?<tier>beginner|easy|medium|hard|elite|master)$", Pattern.CASE_INSENSITIVE);
 	private static final Pattern LAST_MISSED_PATTERN = Pattern.compile("^!lastmissed$", Pattern.CASE_INSENSITIVE);
@@ -217,9 +237,10 @@ public class MissedCluesPlugin extends Plugin
 		@Override
 		public void keyPressed(KeyEvent e)
 		{
-			if (overlay.isDisplayingItems() && e.getKeyCode() == KeyEvent.VK_ESCAPE)
+			if ((overlay.isDisplayingItems() || overlay.isDisplayingAllTiers()) && e.getKeyCode() == KeyEvent.VK_ESCAPE)
 			{
 				overlay.displayItems(false);
+				overlay.displayAllTiers(false);
 			}
 		}
 	};
@@ -229,11 +250,12 @@ public class MissedCluesPlugin extends Plugin
 		@Override
 		public MouseEvent mousePressed(MouseEvent event)
 		{
-			if (overlay.isDisplayingItems() && overlay.getCloseButtonBounds() != null)
+			if ((overlay.isDisplayingItems() || overlay.isDisplayingAllTiers()) && overlay.getCloseButtonBounds() != null)
 			{
 				if (overlay.getCloseButtonBounds().contains(event.getPoint()))
 				{
 					overlay.displayItems(false);
+					overlay.displayAllTiers(false);
 					event.consume();
 				}
 			}
@@ -269,6 +291,78 @@ public class MissedCluesPlugin extends Plugin
 		overlayManager.remove(overlay);
 		mouseManager.unregisterMouseListener(mouseListener);
 		client.getCanvas().removeKeyListener(escKeyListener);
+	}
+
+	private void rollAllTiers() {
+		// Create a map to store ItemStacks for all tiers
+		Map<String, List<ItemStack>> allTierStacks = new LinkedHashMap<>();
+		long totalValue = 0;
+
+		// List of tiers in order
+		String[] allTiers = {"beginner", "easy", "medium", "hard", "elite"};
+
+		client.addChatMessage(
+				ChatMessageType.GAMEMESSAGE,
+				"",
+				"You have a funny feeling like you would have received:",
+				null
+		);
+
+		for (String tier : allTiers) {
+			ClueConfiguration clueConfig = clueConfigs.stream()
+					.filter(cfg -> cfg.getTier().equalsIgnoreCase(tier))
+					.findFirst()
+					.orElse(null);
+
+			if (clueConfig != null) {
+				List<RewardItem> rewardList = rewardTables.get(clueConfig.getChatTrigger());
+				if (rewardList != null && !rewardList.isEmpty()) {
+					int minItems = clueConfig.getMinItems();
+					int maxItems = clueConfig.getMaxItems();
+					int countToPick = random.nextInt(maxItems - minItems + 1) + minItems;
+
+					List<RewardItem> chosenItems = pickWeightedItems(rewardList, countToPick);
+					chosenItems = consolidateItems(chosenItems);
+
+					if (!chosenItems.isEmpty()) {
+						List<ItemStack> tierStacks = chosenItems.stream()
+								.map(item -> new ItemStack(item.getItemId(), item.getParsedQuantity()))
+								.collect(Collectors.toList());
+
+						allTierStacks.put(tier, tierStacks);
+
+						String itemsList = chosenItems.stream()
+								.map(item -> item.getQuantity() + "x " + item.getItemName())
+								.collect(Collectors.joining(", "));
+
+						long tierTotal = 0;
+						for (RewardItem item : chosenItems) {
+							int gePriceEach = itemManager.getItemPrice(item.getItemId());
+							tierTotal += (long) gePriceEach * item.getParsedQuantity();
+						}
+						totalValue += tierTotal;
+
+						client.addChatMessage(
+								ChatMessageType.GAMEMESSAGE,
+								"",
+								"[" + tier.substring(0, 1).toUpperCase() + tier.substring(1) + "] " + itemsList,
+								null
+						);
+					}
+				}
+			}
+		}
+
+		if (totalValue > 0) {
+			String formattedTotalPrice = String.format("%,d", totalValue);
+			client.addChatMessage(
+					ChatMessageType.GAMEMESSAGE,
+					"",
+					"Your loot would have been worth: " + formattedTotalPrice + " coins!",
+					null
+			);
+		}
+		overlay.setAllTierStacks(allTierStacks);
 	}
 
 	@Subscribe
@@ -335,7 +429,6 @@ public class MissedCluesPlugin extends Plugin
 		}
 
 		String message = event.getMessage();
-
 
 		ClueConfiguration clueConfig = clueConfigs.stream()
 				.filter(cfg -> message.equals(cfg.getChatTrigger()))
