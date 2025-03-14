@@ -9,7 +9,7 @@ import net.runelite.client.config.ConfigSection;
 public interface MissedCluesConfig extends Config
 {
 	@ConfigSection(
-			name = "Clue Tiers Configuration",
+			name = "Clue Tiers",
 			description = "Configures how to display each clue tier.",
 			position = 0,
 			closedByDefault = false
@@ -84,6 +84,18 @@ public interface MissedCluesConfig extends Config
 			section = "clueTiers"
 	)
 	default DisplayType masterDisplay()
+	{
+		return DisplayType.BOTH;
+	}
+
+	@ConfigItem(
+			keyName = "watsonDisplay",
+			name = "Watson Hand-ins",
+			description = "Configures how to show Watson hand-ins.",
+			position = 6,
+			section = "clueTiers"
+	)
+	default DisplayType watsonDisplay()
 	{
 		return DisplayType.BOTH;
 	}
@@ -207,5 +219,73 @@ public interface MissedCluesConfig extends Config
 	)
 	void missedMasterCount(int count);
 
+	@ConfigItem(
+			keyName = "lastMissedValue",
+			name = "Last Missed Value",
+			description = "Value of the last missed clue",
+			hidden = true
+	)
+	default long lastMissedValue()
+	{
+		return 0;
+	}
+
+	@ConfigItem(
+			keyName = "lastMissedValue",
+			name = "Last Missed Value",
+			description = "Value of the last missed clue",
+			hidden = true
+	)
+	void lastMissedValue(long value);
+
+	@ConfigItem(
+			keyName = "lastMissedTier",
+			name = "Last Missed Tier",
+			description = "Tier of the last missed clue",
+			hidden = true
+	)
+	default String lastMissedTier()
+	{
+		return "";
+	}
+
+	@ConfigItem(
+			keyName = "lastMissedTier",
+			name = "Last Missed Tier",
+			description = "Tier of the last missed clue",
+			hidden = true
+	)
+	void lastMissedTier(String tier);
+
+	@ConfigSection(
+			name = "Screenshot",
+			description = "Screenshot settings",
+			position = 1,
+			closedByDefault = false
+	)
+	String SECTION_SCREENSHOT = "screenshot";
+
+	@ConfigItem(
+			keyName = "valuableThreshold",
+			name = "Valuable Threshold",
+			description = "Takes a screenshot when the clue exceeds this amount (0 for never)",
+			position = 0,
+			section = "screenshot"
+	)
+	default int valuableThreshold()
+	{
+		return 1000000;
+	}
+	@ConfigItem(
+			keyName = "notifyWhenTaken",
+			name = "Notify when taken",
+			description = "Configures whether or not you are notified when a screenshot has been taken.",
+			position = 2,
+			section = "screenshot"
+	)
+	default boolean notifyWhenTaken()
+	{
+		return true;
+	}
 
 }

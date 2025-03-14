@@ -15,19 +15,23 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
-public class Overlay extends net.runelite.client.ui.overlay.Overlay
-{
+public class MissedCluesOverlay extends net.runelite.client.ui.overlay.Overlay {
     private final Client client;
     private final ItemManager itemManager;
     private final BufferedImage closeButtonImage;
     private final BufferedImage closeButtonHoveredImage;
     private final BufferedImage incineratorImage;
+    private final BufferedImage watsonImage;
     private Rectangle closeButtonBounds;
     private boolean displayItems;
     private List<ItemStack> itemStacks = new ArrayList<>();
+    private Map<String, List<ItemStack>> allTierStacks = new LinkedHashMap<>();
+    private boolean displayAllTiers = false;
 
     private static final Set<Integer> NOTED_IDS = Set.of(
             12913, 269, 391, 245, 225, 207, 3049, 3051, 451, 2363,
@@ -41,8 +45,7 @@ public class Overlay extends net.runelite.client.ui.overlay.Overlay
     );
 
     @Inject
-    public Overlay(Client client, ItemManager itemManager)
-    {
+    public MissedCluesOverlay(Client client, ItemManager itemManager) {
         this.client = client;
         this.itemManager = itemManager;
 
@@ -51,35 +54,44 @@ public class Overlay extends net.runelite.client.ui.overlay.Overlay
         setPriority(200.0f);
 
         incineratorImage = ImageUtil.loadImageResource(getClass(), "/incinerator.png");
+        watsonImage = ImageUtil.loadImageResource(getClass(), "/watson.png");
         closeButtonImage = ImageUtil.loadImageResource(getClass(), "/closeButton.png");
         closeButtonHoveredImage = ImageUtil.loadImageResource(getClass(), "/closeButtonHovered.png");
     }
 
-    public void displayItems(boolean show)
-    {
+    public void displayItems(boolean show) {
         this.displayItems = show;
     }
 
-    public boolean isDisplayingItems()
-    {
+    public boolean isDisplayingItems() {
         return this.displayItems;
     }
 
-    public void setItemStacks(List<ItemStack> stacks)
-    {
+    public void displayAllTiers(boolean show) {
+        this.displayAllTiers = show;
+    }
+
+    public boolean isDisplayingAllTiers() {
+        return this.displayAllTiers;
+    }
+
+    public void setItemStacks(List<ItemStack> stacks) {
         this.itemStacks = stacks;
     }
 
-    public Rectangle getCloseButtonBounds()
-    {
+    public void setAllTierStacks(Map<String, List<ItemStack>> stacks) {
+        this.allTierStacks = stacks;
+        this.displayAllTiers = true;
+        this.displayItems = false;
+    }
+
+    public Rectangle getCloseButtonBounds() {
         return closeButtonBounds;
     }
 
     @Override
-    public Dimension render(Graphics2D graphics)
-    {
-        if (!displayItems || itemStacks.isEmpty())
-        {
+    public Dimension render(Graphics2D graphics) {
+        if ((!displayItems && !displayAllTiers) || (displayItems && itemStacks.isEmpty()) || (displayAllTiers && allTierStacks.isEmpty())) {
             return null;
         }
 
@@ -89,26 +101,22 @@ public class Overlay extends net.runelite.client.ui.overlay.Overlay
         final int startX;
         final int startY;
 
-        if (canvasWidth <= 1000 && canvasHeight <= 650)
-        {
+        if (canvasWidth <= 1000 && canvasHeight <= 650) {
             startX = (canvasWidth - 309) / 2;
             startY = (canvasHeight - 296) / 2;
-        }
-        else
-        {
+        } else {
             startX = canvasWidth / 2 - 24;
             startY = canvasHeight / 3 - 24;
         }
 
-        if (incineratorImage != null)
-        {
+        BufferedImage backgroundImage = displayAllTiers ? watsonImage : incineratorImage;
+        if (backgroundImage != null) {
             int incX = startX - 140;
             int incY = startY - 70;
-            graphics.drawImage(incineratorImage, incX, incY, null);
+            graphics.drawImage(backgroundImage, incX, incY, null);
 
-            if (closeButtonImage != null)
-            {
-                int closeX = incX + incineratorImage.getWidth() - closeButtonImage.getWidth() + 40;
+            if (closeButtonImage != null) {
+                int closeX = incX + backgroundImage.getWidth() - closeButtonImage.getWidth() + 40;
                 int closeY = incY + 15;
 
                 closeButtonBounds = new Rectangle(
@@ -129,35 +137,44 @@ public class Overlay extends net.runelite.client.ui.overlay.Overlay
 
         final int itemsPerRow = 3;
         int x = startX;
-        int y = startY;
+        int y = startY + (displayAllTiers ? -30 : 0);
 
-        for (int i = 0; i < itemStacks.size(); i++)
-        {
-            ItemStack stack = itemStacks.get(i);
+        if (displayAllTiers) {
+            List<ItemStack> allItems = new ArrayList<>();
+            for (List<ItemStack> tierItems : allTierStacks.values()) {
+                allItems.addAll(tierItems);
+            }
+
+            renderItems(graphics, allItems, x, y, itemsPerRow);
+        } else {
+            renderItems(graphics, itemStacks, x, y, itemsPerRow);
+        }
+
+        return null;
+    }
+
+
+    private void renderItems(Graphics2D graphics, List<ItemStack> items, int x, int y, int itemsPerRow) {
+        for (int i = 0; i < items.size(); i++) {
+            ItemStack stack = items.get(i);
             int itemId = stack.getItemId();
             int quantity = stack.getQuantity();
 
-            if (NOTED_IDS.contains(itemId))
-            {
+            if (NOTED_IDS.contains(itemId)) {
                 itemId += 1;
             }
 
             BufferedImage itemImage;
-            if (QUANTITY_SENSITIVE_IDS.contains(stack.getItemId()))
-            {
+            if (QUANTITY_SENSITIVE_IDS.contains(stack.getItemId())) {
                 itemImage = itemManager.getImage(itemId, quantity, true);
-            }
-            else
-            {
+            } else {
                 itemImage = itemManager.getImage(itemId);
             }
 
-            if (itemImage != null)
-            {
+            if (itemImage != null) {
                 graphics.drawImage(itemImage, x, y, null);
 
-                if (quantity > 1 && !QUANTITY_SENSITIVE_IDS.contains(stack.getItemId()))
-                {
+                if (quantity > 1 && !QUANTITY_SENSITIVE_IDS.contains(stack.getItemId())) {
                     String qtyText = String.valueOf(quantity);
                     FontMetrics fm = graphics.getFontMetrics();
                     int textX = x;
@@ -168,18 +185,13 @@ public class Overlay extends net.runelite.client.ui.overlay.Overlay
                     graphics.drawString(qtyText, textX, textY);
                 }
 
-                if ((i + 1) % itemsPerRow == 0)
-                {
-                    x = startX;
+                if ((i + 1) % itemsPerRow == 0) {
+                    x = x - (itemImage.getWidth() + 5) * (itemsPerRow - 1);
                     y += itemImage.getHeight() + 5;
-                }
-                else
-                {
+                } else {
                     x += itemImage.getWidth() + 5;
                 }
             }
         }
-
-        return null;
     }
 }

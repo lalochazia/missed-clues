@@ -7,8 +7,22 @@
     "maxItems": 3
   },
   {
+    "tier": "beginner",
+    "chatTrigger": "You incinerate your beginner clue scroll.",
+    "jsonResource": "/beginner_clues.json",
+    "minItems": 1,
+    "maxItems": 3
+  },
+  {
     "tier": "easy",
     "chatTrigger": "You have a sneaking suspicion that you would have received an easy clue scroll.",
+    "jsonResource": "/easy_clues.json",
+    "minItems": 2,
+    "maxItems": 4
+  },
+  {
+    "tier": "easy",
+    "chatTrigger": "You incinerate your easy clue scroll.",
     "jsonResource": "/easy_clues.json",
     "minItems": 2,
     "maxItems": 4
@@ -21,8 +35,22 @@
     "maxItems": 5
   },
   {
+    "tier": "medium",
+    "chatTrigger": "You incinerate your medium clue scroll.",
+    "jsonResource": "/medium_clues.json",
+    "minItems": 3,
+    "maxItems": 5
+  },
+  {
     "tier": "hard",
     "chatTrigger": "You have a sneaking suspicion that you would have received a hard clue scroll.",
+    "jsonResource": "/hard_clues.json",
+    "minItems": 4,
+    "maxItems": 6
+  },
+  {
+    "tier": "hard",
+    "chatTrigger": "You incinerate your hard clue scroll.",
     "jsonResource": "/hard_clues.json",
     "minItems": 4,
     "maxItems": 6
@@ -35,8 +63,22 @@
     "maxItems": 6
   },
   {
+    "tier": "elite",
+    "chatTrigger": "You incinerate your elite clue scroll.",
+    "jsonResource": "/elite_clues.json",
+    "minItems": 4,
+    "maxItems": 6
+  },
+  {
     "tier": "master",
     "chatTrigger": "You have a sneaking suspicion that you would have received a master clue scroll.",
+    "jsonResource": "/master_clues.json",
+    "minItems": 5,
+    "maxItems": 7
+  },
+  {
+    "tier": "master",
+    "chatTrigger": "You incinerate your master clue scroll.",
     "jsonResource": "/master_clues.json",
     "minItems": 5,
     "maxItems": 7
