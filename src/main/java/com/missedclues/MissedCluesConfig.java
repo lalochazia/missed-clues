@@ -89,6 +89,18 @@ public interface MissedCluesConfig extends Config
 	}
 
 	@ConfigItem(
+			keyName = "watsonDisplay",
+			name = "Watson Hand-ins",
+			description = "Configures how to show Watson hand-ins.",
+			position = 6,
+			section = "clueTiers"
+	)
+	default DisplayType watsonDisplay()
+	{
+		return DisplayType.BOTH;
+	}
+
+	@ConfigItem(
 			keyName = "missedBeginnerCount",
 			name = "Missed Beginner Clues",
 			description = "Count of missed Beginner clues",

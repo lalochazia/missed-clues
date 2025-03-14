@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class Overlay extends net.runelite.client.ui.overlay.Overlay {
+public class MissedCluesOverlay extends net.runelite.client.ui.overlay.Overlay {
     private final Client client;
     private final ItemManager itemManager;
     private final BufferedImage closeButtonImage;
@@ -45,7 +45,7 @@ public class Overlay extends net.runelite.client.ui.overlay.Overlay {
     );
 
     @Inject
-    public Overlay(Client client, ItemManager itemManager) {
+    public MissedCluesOverlay(Client client, ItemManager itemManager) {
         this.client = client;
         this.itemManager = itemManager;
 
@@ -137,7 +137,6 @@ public class Overlay extends net.runelite.client.ui.overlay.Overlay {
 
         final int itemsPerRow = 3;
         int x = startX;
-        // Adjust startY for all tiers display
         int y = startY + (displayAllTiers ? -30 : 0);
 
         if (displayAllTiers) {

@@ -23,6 +23,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -76,7 +77,7 @@ public class MissedCluesPlugin extends Plugin
 	private OverlayManager overlayManager;
 
 	@Inject
-	private Overlay overlay;
+	private MissedCluesOverlay missedCluesOverlay;
 
 	@Inject
 	private MouseManager mouseManager;
@@ -95,6 +96,27 @@ public class MissedCluesPlugin extends Plugin
 
 	@Inject
 	private ScheduledExecutorService executor;
+
+	@Override
+	protected void startUp()
+	{
+		log.info("Missed Clues plugin started!");
+		loadClueConfigs();
+		migrateConfig();
+		loadAllRewardTables();
+		overlayManager.add(missedCluesOverlay);
+		mouseManager.registerMouseListener(mouseListener);
+		client.getCanvas().addKeyListener(escKeyListener);
+	}
+
+	@Override
+	protected void shutDown()
+	{
+		log.info("Missed Clues plugin stopped!");
+		overlayManager.remove(missedCluesOverlay);
+		mouseManager.unregisterMouseListener(mouseListener);
+		client.getCanvas().removeKeyListener(escKeyListener);
+	}
 
 	private void takeScreenshot(String fileName)
 	{
@@ -120,7 +142,7 @@ public class MissedCluesPlugin extends Plugin
 
 	}
 
-	private final Random random = new Random();
+	private final ThreadLocalRandom random = ThreadLocalRandom.current();
 
 	@Subscribe
 	public void onWidgetLoaded(WidgetLoaded event) {
@@ -138,9 +160,6 @@ public class MissedCluesPlugin extends Plugin
 			});
 		}
 	}
-
-	private static final Pattern MISSED_CLUES_PATTERN = Pattern.compile("^!missed (?<tier>beginner|easy|medium|hard|elite|master)$", Pattern.CASE_INSENSITIVE);
-	private static final Pattern LAST_MISSED_PATTERN = Pattern.compile("^!lastmissed$", Pattern.CASE_INSENSITIVE);
 
 	private Item[] previousInventory = null;
 
@@ -237,10 +256,10 @@ public class MissedCluesPlugin extends Plugin
 		@Override
 		public void keyPressed(KeyEvent e)
 		{
-			if ((overlay.isDisplayingItems() || overlay.isDisplayingAllTiers()) && e.getKeyCode() == KeyEvent.VK_ESCAPE)
+			if ((missedCluesOverlay.isDisplayingItems() || missedCluesOverlay.isDisplayingAllTiers()) && e.getKeyCode() == KeyEvent.VK_ESCAPE)
 			{
-				overlay.displayItems(false);
-				overlay.displayAllTiers(false);
+				missedCluesOverlay.displayItems(false);
+				missedCluesOverlay.displayAllTiers(false);
 			}
 		}
 	};
@@ -250,12 +269,12 @@ public class MissedCluesPlugin extends Plugin
 		@Override
 		public MouseEvent mousePressed(MouseEvent event)
 		{
-			if ((overlay.isDisplayingItems() || overlay.isDisplayingAllTiers()) && overlay.getCloseButtonBounds() != null)
+			if ((missedCluesOverlay.isDisplayingItems() || missedCluesOverlay.isDisplayingAllTiers()) && missedCluesOverlay.getCloseButtonBounds() != null)
 			{
-				if (overlay.getCloseButtonBounds().contains(event.getPoint()))
+				if (missedCluesOverlay.getCloseButtonBounds().contains(event.getPoint()))
 				{
-					overlay.displayItems(false);
-					overlay.displayAllTiers(false);
+					missedCluesOverlay.displayItems(false);
+					missedCluesOverlay.displayAllTiers(false);
 					event.consume();
 				}
 			}
@@ -272,41 +291,25 @@ public class MissedCluesPlugin extends Plugin
 		return configManager.getConfig(MissedCluesConfig.class);
 	}
 
-	@Override
-	protected void startUp()
-	{
-		log.info("Missed Clues plugin started!");
-		loadClueConfigs();
-		migrateConfig();
-		loadAllRewardTables();
-		overlayManager.add(overlay);
-		mouseManager.registerMouseListener(mouseListener);
-		client.getCanvas().addKeyListener(escKeyListener);
-	}
-
-	@Override
-	protected void shutDown()
-	{
-		log.info("Missed Clues plugin stopped!");
-		overlayManager.remove(overlay);
-		mouseManager.unregisterMouseListener(mouseListener);
-		client.getCanvas().removeKeyListener(escKeyListener);
-	}
-
 	private void rollAllTiers() {
-		// Create a map to store ItemStacks for all tiers
+		DisplayType displayType = config.watsonDisplay();
+		if (displayType == DisplayType.NONE) {
+			return;
+		}
+
 		Map<String, List<ItemStack>> allTierStacks = new LinkedHashMap<>();
 		long totalValue = 0;
 
-		// List of tiers in order
 		String[] allTiers = {"beginner", "easy", "medium", "hard", "elite"};
 
-		client.addChatMessage(
-				ChatMessageType.GAMEMESSAGE,
-				"",
-				"You have a funny feeling like you would have received:",
-				null
-		);
+		if (displayType == DisplayType.CHAT_MESSAGE || displayType == DisplayType.BOTH) {
+			client.addChatMessage(
+					ChatMessageType.GAMEMESSAGE,
+					"",
+					"You have a funny feeling like you would have received:",
+					null
+			);
+		}
 
 		for (String tier : allTiers) {
 			ClueConfiguration clueConfig = clueConfigs.stream()
@@ -331,29 +334,31 @@ public class MissedCluesPlugin extends Plugin
 
 						allTierStacks.put(tier, tierStacks);
 
-						String itemsList = chosenItems.stream()
-								.map(item -> item.getQuantity() + "x " + item.getItemName())
-								.collect(Collectors.joining(", "));
+						if (displayType == DisplayType.CHAT_MESSAGE || displayType == DisplayType.BOTH) {
+							String itemsList = chosenItems.stream()
+									.map(item -> item.getQuantity() + "x " + item.getItemName())
+									.collect(Collectors.joining(", "));
 
-						long tierTotal = 0;
-						for (RewardItem item : chosenItems) {
-							int gePriceEach = itemManager.getItemPrice(item.getItemId());
-							tierTotal += (long) gePriceEach * item.getParsedQuantity();
+							long tierTotal = 0;
+							for (RewardItem item : chosenItems) {
+								int gePriceEach = itemManager.getItemPrice(item.getItemId());
+								tierTotal += (long) gePriceEach * item.getParsedQuantity();
+							}
+							totalValue += tierTotal;
+
+							client.addChatMessage(
+									ChatMessageType.GAMEMESSAGE,
+									"",
+									"[" + tier.substring(0, 1).toUpperCase() + tier.substring(1) + "] " + itemsList,
+									null
+							);
 						}
-						totalValue += tierTotal;
-
-						client.addChatMessage(
-								ChatMessageType.GAMEMESSAGE,
-								"",
-								"[" + tier.substring(0, 1).toUpperCase() + tier.substring(1) + "] " + itemsList,
-								null
-						);
 					}
 				}
 			}
 		}
 
-		if (totalValue > 0) {
+		if (totalValue > 0 && (displayType == DisplayType.CHAT_MESSAGE || displayType == DisplayType.BOTH)) {
 			String formattedTotalPrice = String.format("%,d", totalValue);
 			client.addChatMessage(
 					ChatMessageType.GAMEMESSAGE,
@@ -362,8 +367,13 @@ public class MissedCluesPlugin extends Plugin
 					null
 			);
 		}
-		overlay.setAllTierStacks(allTierStacks);
+
+		if (displayType == DisplayType.OVERLAY || displayType == DisplayType.BOTH) {
+			missedCluesOverlay.setAllTierStacks(allTierStacks);
+		}
 	}
+
+	private static final Pattern MISSED_CLUES_PATTERN = Pattern.compile("^!missed (?<tier>beginner|easy|medium|hard|elite|master)$", Pattern.CASE_INSENSITIVE);
 
 	@Subscribe
 	public void onChatMessage(ChatMessage event)
@@ -716,9 +726,9 @@ public class MissedCluesPlugin extends Plugin
 				.map(item -> new ItemStack(item.getItemId(), item.getParsedQuantity()))
 				.collect(Collectors.toList());
 
-		overlay.displayItems(false);
-		overlay.setItemStacks(stacks);
-		overlay.displayItems(true);
+		missedCluesOverlay.displayItems(false);
+		missedCluesOverlay.setItemStacks(stacks);
+		missedCluesOverlay.displayItems(true);
 	}
 
 	private void migrateConfig() {
