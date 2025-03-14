@@ -207,5 +207,72 @@ public interface MissedCluesConfig extends Config
 	)
 	void missedMasterCount(int count);
 
+	@ConfigItem(
+			keyName = "lastMissedValue",
+			name = "Last Missed Value",
+			description = "Value of the last missed clue",
+			hidden = true
+	)
+	default long lastMissedValue()
+	{
+		return 0;
+	}
+
+	@ConfigItem(
+			keyName = "lastMissedValue",
+			name = "Last Missed Value",
+			description = "Value of the last missed clue",
+			hidden = true
+	)
+	void lastMissedValue(long value);
+
+	@ConfigItem(
+			keyName = "lastMissedTier",
+			name = "Last Missed Tier",
+			description = "Tier of the last missed clue",
+			hidden = true
+	)
+	default String lastMissedTier()
+	{
+		return "";
+	}
+
+	@ConfigItem(
+			keyName = "lastMissedTier",
+			name = "Last Missed Tier",
+			description = "Tier of the last missed clue",
+			hidden = true
+	)
+	void lastMissedTier(String tier);
+
+	@ConfigSection(
+			name = "Screenshot",
+			description = "Screenshot settings",
+			position = 1,
+			closedByDefault = false
+	)
+	String SECTION_SCREENSHOT = "screenshot";
+
+	@ConfigItem(
+			keyName = "valuableThreshold",
+			name = "Valuable Threshold",
+			description = "Takes a screenshot when the clue exceeds this amount (0 for never)",
+			position = 0,
+			section = "screenshot"
+	)
+	default int valuableThreshold()
+	{
+		return 1000000;
+	}
+	@ConfigItem(
+			keyName = "notifyWhenTaken",
+			name = "Notify when taken",
+			description = "Configures whether or not you are notified when a screenshot has been taken.",
+			position = 2
+	)
+	default boolean notifyWhenTaken()
+	{
+		return true;
+	}
 
 }

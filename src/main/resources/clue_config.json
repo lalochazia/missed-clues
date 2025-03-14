@@ -22,7 +22,7 @@
   },
   {
     "tier": "hard",
-    "chatTrigger": "You have a sneaking suspicion that you would have received a hard clue scroll.",
+    "chatTrigger": "Nothing interesting happens.",
     "jsonResource": "/hard_clues.json",
     "minItems": 4,
     "maxItems": 6

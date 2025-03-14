@@ -24,6 +24,20 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+import net.runelite.client.chat.ChatMessageBuilder;
+import net.runelite.client.chat.ChatColorType;
+import net.runelite.api.MessageNode;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.function.Consumer;
+import net.runelite.client.ui.DrawManager;
+import net.runelite.client.util.ImageCapture;
+import java.util.concurrent.ScheduledExecutorService;
+
 
 @Slf4j
 @PluginDescriptor(
@@ -55,7 +69,63 @@ public class MissedCluesPlugin extends Plugin
 	@Inject
 	private ConfigManager configManager;
 
+	@Inject
+	private DrawManager drawManager;
+
+	@Inject
+	private ImageCapture imageCapture;
+
+	@Inject
+	private ScheduledExecutorService executor;
+
+	private void takeScreenshot(String fileName)
+	{
+		Consumer<Image> imageCallback = (img) ->
+		{
+			// This runs on the game thread, move to executor thread
+			executor.submit(() -> {
+				try
+				{
+					takeScreenshot((BufferedImage) img, fileName);
+				}
+				catch (Exception ex)
+				{
+					log.warn("Error taking screenshot", ex);
+				}
+			});
+		};
+		drawManager.requestNextFrameListener(imageCallback);
+	}
+
+	private void takeScreenshot(BufferedImage image, String fileName)
+	{
+		imageCapture.saveScreenshot(image, fileName, "Missed Clues", config.notifyWhenTaken(), false);
+
+	}
+
 	private final Random random = new Random();
+
+	private static final Pattern MISSED_CLUES_PATTERN = Pattern.compile("^!missed (?<tier>beginner|easy|medium|hard|elite|master)$", Pattern.CASE_INSENSITIVE);
+	private static final Pattern LAST_MISSED_PATTERN = Pattern.compile("^!lastmissed$", Pattern.CASE_INSENSITIVE);
+
+	private int getMissedCountFromConfig(String tier) {
+		switch (tier) {
+			case "beginner":
+				return config.missedBeginnerCount();
+			case "easy":
+				return config.missedEasyCount();
+			case "medium":
+				return config.missedMediumCount();
+			case "hard":
+				return config.missedHardCount();
+			case "elite":
+				return config.missedEliteCount();
+			case "master":
+				return config.missedMasterCount();
+			default:
+				return -1;
+		}
+	}
 
 	private final KeyAdapter escKeyListener = new KeyAdapter()
 	{
@@ -119,6 +189,66 @@ public class MissedCluesPlugin extends Plugin
 	@Subscribe
 	public void onChatMessage(ChatMessage event)
 	{
+		if (event.getType() == ChatMessageType.PUBLICCHAT
+				|| event.getType() == ChatMessageType.PRIVATECHAT
+				|| event.getType() == ChatMessageType.FRIENDSCHAT
+				|| event.getType() == ChatMessageType.CLAN_CHAT) {
+
+			String message = event.getMessage();
+			Matcher matcher = MISSED_CLUES_PATTERN.matcher(message);
+
+			if (message.equalsIgnoreCase("!lastmissed")) {
+				long lastValue = config.lastMissedValue();
+				String lastTier = config.lastMissedTier();
+
+				if (lastValue > 0 && !lastTier.isEmpty()) {
+					String response = new ChatMessageBuilder()
+							.append(ChatColorType.NORMAL)
+							.append("Last missed clue: ")
+							.append(ChatColorType.HIGHLIGHT)
+							.append(String.format("%,dgp (%s)", lastValue, lastTier))
+							.build();
+
+					final MessageNode messageNode = event.getMessageNode();
+					messageNode.setRuneLiteFormatMessage(response);
+					client.refreshChat();
+				} else {
+					client.addChatMessage(
+							ChatMessageType.GAMEMESSAGE,
+							"",
+							"No missed clue recorded yet.",
+							null
+					);
+				}
+				return;
+			}
+
+			if (matcher.find()) {
+				String tier = matcher.group("tier").toLowerCase();
+				int missedCount = getMissedCountFromConfig(tier);
+
+				if (missedCount >= 0) {
+					String displayTier = tier.substring(0, 1).toUpperCase() + tier.substring(1);
+					String response = new ChatMessageBuilder()
+							.append(ChatColorType.HIGHLIGHT)
+							.append(displayTier)
+							.append(" clue")
+							.append(ChatColorType.NORMAL)
+							.append(" missed count: ")
+							.append(ChatColorType.HIGHLIGHT)
+							.append(Integer.toString(missedCount))
+							.append(ChatColorType.NORMAL)
+							.build();
+
+					log.debug("Setting response {}", response);
+					final MessageNode messageNode = event.getMessageNode();
+					messageNode.setRuneLiteFormatMessage(response);
+					client.refreshChat();
+				}
+				return;
+			}
+		}
+
 		String message = event.getMessage();
 		ClueConfiguration clueConfig = clueConfigs.stream()
 				.filter(cfg -> message.equals(cfg.getChatTrigger()))
@@ -229,6 +359,18 @@ public class MissedCluesPlugin extends Plugin
 				int gePriceEach = itemManager.getItemPrice(item.getItemId());
 				totalPrice += (long) gePriceEach * item.getParsedQuantity();
 			}
+
+			config.lastMissedValue(totalPrice);
+			config.lastMissedTier(clueConfig.getTier());
+
+			if (config.valuableThreshold() > 0 && totalPrice > config.valuableThreshold())
+			{
+				String fileName = String.format("%s-clue-%d-%s", clueConfig.getTier(), currentCount,
+						LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss")));
+				takeScreenshot(fileName);
+				log.debug("Taking screenshot of valuable clue reward worth {} gp", totalPrice);
+			}
+
 
 			String formattedPrice = String.format("%,d", totalPrice);
 			client.addChatMessage(
