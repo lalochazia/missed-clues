@@ -37,6 +37,16 @@ import java.util.function.Consumer;
 import net.runelite.client.ui.DrawManager;
 import net.runelite.client.util.ImageCapture;
 import java.util.concurrent.ScheduledExecutorService;
+import net.runelite.api.ItemComposition;
+
+import net.runelite.api.events.ItemContainerChanged;
+import net.runelite.api.ItemContainer;
+import net.runelite.api.InventoryID;
+import net.runelite.api.Item;
+import net.runelite.api.ItemID;
+import net.runelite.client.chat.ChatMessageManager;
+import net.runelite.client.chat.QueuedMessage;
+
 
 
 @Slf4j
@@ -50,6 +60,10 @@ public class MissedCluesPlugin extends Plugin
 
 	@Inject
 	private Client client;
+
+	@Inject
+	private ChatMessageManager chatMessageManager;
+
 
 	@Inject
 	private MissedCluesConfig config;
@@ -107,6 +121,77 @@ public class MissedCluesPlugin extends Plugin
 
 	private static final Pattern MISSED_CLUES_PATTERN = Pattern.compile("^!missed (?<tier>beginner|easy|medium|hard|elite|master)$", Pattern.CASE_INSENSITIVE);
 	private static final Pattern LAST_MISSED_PATTERN = Pattern.compile("^!lastmissed$", Pattern.CASE_INSENSITIVE);
+
+	private Item[] previousInventory = null;
+
+	@Subscribe
+	public void onItemContainerChanged(ItemContainerChanged event) {
+		if (event.getContainerId() != InventoryID.INVENTORY.getId()) {
+			return;
+		}
+
+		ItemContainer container = event.getItemContainer();
+		if (container == null) {
+			return;
+		}
+
+		Item[] currentInventory = container.getItems();
+
+		if (previousInventory != null) {
+			boolean itemRemoved = false;
+			boolean coinsAdded = false;
+			String tier = "";
+
+			for (Item prevItem : previousInventory) {
+				if (prevItem != null && !containsItem(currentInventory, prevItem.getId())) {
+					ItemComposition itemComp = itemManager.getItemComposition(prevItem.getId());
+					String removedItemName = itemComp.getName().toLowerCase();
+					if (removedItemName.startsWith("clue scroll (") || removedItemName.startsWith("challenge scroll (")) {
+						tier = removedItemName.contains("clue scroll") ?
+								removedItemName.replace("clue scroll (", "").replace(")", "") :
+								removedItemName.replace("challenge scroll (", "").replace(")", "");
+						itemRemoved = true;
+					}
+				}
+			}
+
+			int previousCoins = getItemQuantity(previousInventory, ItemID.COINS_995);
+			int currentCoins = getItemQuantity(currentInventory, ItemID.COINS_995);
+
+			if (currentCoins > previousCoins) {
+				coinsAdded = true;
+			}
+
+			if (itemRemoved && coinsAdded && !tier.isEmpty()) {
+				log.info("Final check - itemRemoved: {}, coinsAdded: {}, tier: '{}'",
+						itemRemoved, coinsAdded, tier);
+
+				chatMessageManager.queue(QueuedMessage.builder()
+						.type(ChatMessageType.GAMEMESSAGE)
+						.runeLiteFormattedMessage("You incinerate your " + tier + " clue scroll.")
+						.build());
+			}
+		}
+		previousInventory = currentInventory.clone();
+	}
+
+	private boolean containsItem(Item[] items, int itemId) {
+		for (Item item : items) {
+			if (item != null && item.getId() == itemId) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private int getItemQuantity(Item[] items, int itemId) {
+		for (Item item : items) {
+			if (item != null && item.getId() == itemId) {
+				return item.getQuantity();
+			}
+		}
+		return 0;
+	}
 
 	private int getMissedCountFromConfig(String tier) {
 		switch (tier) {
@@ -250,6 +335,8 @@ public class MissedCluesPlugin extends Plugin
 		}
 
 		String message = event.getMessage();
+
+
 		ClueConfiguration clueConfig = clueConfigs.stream()
 				.filter(cfg -> message.equals(cfg.getChatTrigger()))
 				.findFirst()
