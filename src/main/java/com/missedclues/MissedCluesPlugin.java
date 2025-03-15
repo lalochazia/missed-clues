@@ -15,29 +15,11 @@ import net.runelite.client.input.MouseManager;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.ui.overlay.OverlayManager;
-import javax.inject.Inject;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Collectors;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
 import net.runelite.client.chat.ChatMessageBuilder;
 import net.runelite.client.chat.ChatColorType;
 import net.runelite.api.MessageNode;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.function.Consumer;
 import net.runelite.client.ui.DrawManager;
 import net.runelite.client.util.ImageCapture;
-import java.util.concurrent.ScheduledExecutorService;
 import net.runelite.api.ItemComposition;
 import net.runelite.api.events.ItemContainerChanged;
 import net.runelite.api.ItemContainer;
@@ -50,6 +32,22 @@ import net.runelite.api.events.WidgetLoaded;
 import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetID;
 import net.runelite.client.callback.ClientThread;
+import javax.inject.Inject;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+import net.runelite.client.util.Text;
+import java.util.stream.Collectors;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.function.Consumer;
 
 @Slf4j
 @PluginDescriptor(
@@ -68,7 +66,6 @@ public class MissedCluesPlugin extends Plugin
 
 	@Inject
 	private ClientThread clientThread;
-
 
 	@Inject
 	private MissedCluesConfig config;
@@ -97,6 +94,18 @@ public class MissedCluesPlugin extends Plugin
 	@Inject
 	private ScheduledExecutorService executor;
 
+	private final Random random = new Random(System.currentTimeMillis());
+	private Item[] previousInventory = null;
+	private static final Pattern MISSED_CLUES_PATTERN = Pattern.compile("^!missed (?<tier>beginner|easy|medium|hard|elite|master)$", Pattern.CASE_INSENSITIVE);
+	private List<ClueConfiguration> clueConfigs = new ArrayList<>();
+	private final Map<String, List<RewardItem>> rewardTables = new HashMap<>();
+
+	@Provides
+	MissedCluesConfig provideConfig(ConfigManager configManager)
+	{
+		return configManager.getConfig(MissedCluesConfig.class);
+	}
+
 	@Override
 	protected void startUp()
 	{
@@ -118,32 +127,6 @@ public class MissedCluesPlugin extends Plugin
 		client.getCanvas().removeKeyListener(escKeyListener);
 	}
 
-	private void takeScreenshot(String fileName)
-	{
-		Consumer<Image> imageCallback = (img) ->
-		{
-			executor.submit(() -> {
-				try
-				{
-					takeScreenshot((BufferedImage) img, fileName);
-				}
-				catch (Exception ex)
-				{
-					log.warn("Error taking screenshot", ex);
-				}
-			});
-		};
-		drawManager.requestNextFrameListener(imageCallback);
-	}
-
-	private void takeScreenshot(BufferedImage image, String fileName)
-	{
-		imageCapture.saveScreenshot(image, fileName, "Missed Clues", config.notifyWhenTaken(), false);
-
-	}
-
-	private final ThreadLocalRandom random = ThreadLocalRandom.current();
-
 	@Subscribe
 	public void onWidgetLoaded(WidgetLoaded event) {
 		int groupId = event.getGroupId();
@@ -151,17 +134,17 @@ public class MissedCluesPlugin extends Plugin
 			clientThread.invokeLater(() -> {
 				Widget spriteText = client.getWidget(WidgetID.DIALOG_SPRITE_GROUP_ID, 2);
 				if (spriteText != null && "Watson hands you a master clue scroll.".equals(spriteText.getText())) {
-					chatMessageManager.queue(QueuedMessage.builder()
-							.type(ChatMessageType.GAMEMESSAGE)
-							.runeLiteFormattedMessage("You have a funny feeling Watson has done your clues...")
-							.build());
+					client.addChatMessage(
+							ChatMessageType.GAMEMESSAGE,
+							"",
+							"You have a funny feeling Watson has done your clues...",
+							null
+					);
 					rollAllTiers();
 				}
 			});
 		}
 	}
-
-	private Item[] previousInventory = null;
 
 	@Subscribe
 	public void onItemContainerChanged(ItemContainerChanged event) {
@@ -196,13 +179,13 @@ public class MissedCluesPlugin extends Plugin
 
 			int previousCoins = getItemQuantity(previousInventory, ItemID.COINS_995);
 			int currentCoins = getItemQuantity(currentInventory, ItemID.COINS_995);
-
-			if (currentCoins > previousCoins) {
+			int coinDifference = currentCoins - previousCoins;
+			if (coinDifference == 8 || coinDifference == 12) {
 				coinsAdded = true;
 			}
 
 			if (itemRemoved && coinsAdded && !tier.isEmpty()) {
-				log.info("Final check - itemRemoved: {}, coinsAdded: {}, tier: '{}'",
+				log.debug("Final check - itemRemoved: {}, coinsAdded: {}, tier: '{}'",
 						itemRemoved, coinsAdded, tier);
 
 				chatMessageManager.queue(QueuedMessage.builder()
@@ -213,167 +196,6 @@ public class MissedCluesPlugin extends Plugin
 		}
 		previousInventory = currentInventory.clone();
 	}
-
-	private boolean containsItem(Item[] items, int itemId) {
-		for (Item item : items) {
-			if (item != null && item.getId() == itemId) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	private int getItemQuantity(Item[] items, int itemId) {
-		for (Item item : items) {
-			if (item != null && item.getId() == itemId) {
-				return item.getQuantity();
-			}
-		}
-		return 0;
-	}
-
-	private int getMissedCountFromConfig(String tier) {
-		switch (tier) {
-			case "beginner":
-				return config.missedBeginnerCount();
-			case "easy":
-				return config.missedEasyCount();
-			case "medium":
-				return config.missedMediumCount();
-			case "hard":
-				return config.missedHardCount();
-			case "elite":
-				return config.missedEliteCount();
-			case "master":
-				return config.missedMasterCount();
-			default:
-				return -1;
-		}
-	}
-
-	private final KeyAdapter escKeyListener = new KeyAdapter()
-	{
-		@Override
-		public void keyPressed(KeyEvent e)
-		{
-			if ((missedCluesOverlay.isDisplayingItems() || missedCluesOverlay.isDisplayingAllTiers()) && e.getKeyCode() == KeyEvent.VK_ESCAPE)
-			{
-				missedCluesOverlay.displayItems(false);
-				missedCluesOverlay.displayAllTiers(false);
-			}
-		}
-	};
-
-	private final MouseAdapter mouseListener = new MouseAdapter()
-	{
-		@Override
-		public MouseEvent mousePressed(MouseEvent event)
-		{
-			if ((missedCluesOverlay.isDisplayingItems() || missedCluesOverlay.isDisplayingAllTiers()) && missedCluesOverlay.getCloseButtonBounds() != null)
-			{
-				if (missedCluesOverlay.getCloseButtonBounds().contains(event.getPoint()))
-				{
-					missedCluesOverlay.displayItems(false);
-					missedCluesOverlay.displayAllTiers(false);
-					event.consume();
-				}
-			}
-			return event;
-		}
-	};
-
-	private List<ClueConfiguration> clueConfigs = new ArrayList<>();
-	private final Map<String, List<RewardItem>> rewardTables = new HashMap<>();
-
-	@Provides
-	MissedCluesConfig provideConfig(ConfigManager configManager)
-	{
-		return configManager.getConfig(MissedCluesConfig.class);
-	}
-
-	private void rollAllTiers() {
-		DisplayType displayType = config.watsonDisplay();
-		if (displayType == DisplayType.NONE) {
-			return;
-		}
-
-		Map<String, List<ItemStack>> allTierStacks = new LinkedHashMap<>();
-		long totalValue = 0;
-
-		String[] allTiers = {"beginner", "easy", "medium", "hard", "elite"};
-
-		if (displayType == DisplayType.CHAT_MESSAGE || displayType == DisplayType.BOTH) {
-			client.addChatMessage(
-					ChatMessageType.GAMEMESSAGE,
-					"",
-					"You have a funny feeling like you would have received:",
-					null
-			);
-		}
-
-		for (String tier : allTiers) {
-			ClueConfiguration clueConfig = clueConfigs.stream()
-					.filter(cfg -> cfg.getTier().equalsIgnoreCase(tier))
-					.findFirst()
-					.orElse(null);
-
-			if (clueConfig != null) {
-				List<RewardItem> rewardList = rewardTables.get(clueConfig.getChatTrigger());
-				if (rewardList != null && !rewardList.isEmpty()) {
-					int minItems = clueConfig.getMinItems();
-					int maxItems = clueConfig.getMaxItems();
-					int countToPick = random.nextInt(maxItems - minItems + 1) + minItems;
-
-					List<RewardItem> chosenItems = pickWeightedItems(rewardList, countToPick);
-					chosenItems = consolidateItems(chosenItems);
-
-					if (!chosenItems.isEmpty()) {
-						List<ItemStack> tierStacks = chosenItems.stream()
-								.map(item -> new ItemStack(item.getItemId(), item.getParsedQuantity()))
-								.collect(Collectors.toList());
-
-						allTierStacks.put(tier, tierStacks);
-
-						if (displayType == DisplayType.CHAT_MESSAGE || displayType == DisplayType.BOTH) {
-							String itemsList = chosenItems.stream()
-									.map(item -> item.getQuantity() + "x " + item.getItemName())
-									.collect(Collectors.joining(", "));
-
-							long tierTotal = 0;
-							for (RewardItem item : chosenItems) {
-								int gePriceEach = itemManager.getItemPrice(item.getItemId());
-								tierTotal += (long) gePriceEach * item.getParsedQuantity();
-							}
-							totalValue += tierTotal;
-
-							client.addChatMessage(
-									ChatMessageType.GAMEMESSAGE,
-									"",
-									"[" + tier.substring(0, 1).toUpperCase() + tier.substring(1) + "] " + itemsList,
-									null
-							);
-						}
-					}
-				}
-			}
-		}
-
-		if (totalValue > 0 && (displayType == DisplayType.CHAT_MESSAGE || displayType == DisplayType.BOTH)) {
-			String formattedTotalPrice = String.format("%,d", totalValue);
-			client.addChatMessage(
-					ChatMessageType.GAMEMESSAGE,
-					"",
-					"Your loot would have been worth: " + formattedTotalPrice + " coins!",
-					null
-			);
-		}
-
-		if (displayType == DisplayType.OVERLAY || displayType == DisplayType.BOTH) {
-			missedCluesOverlay.setAllTierStacks(allTierStacks);
-		}
-	}
-
-	private static final Pattern MISSED_CLUES_PATTERN = Pattern.compile("^!missed (?<tier>beginner|easy|medium|hard|elite|master)$", Pattern.CASE_INSENSITIVE);
 
 	@Subscribe
 	public void onChatMessage(ChatMessage event)
@@ -436,6 +258,11 @@ public class MissedCluesPlugin extends Plugin
 				}
 				return;
 			}
+		}
+
+		if (event.getType() != ChatMessageType.GAMEMESSAGE)
+		{
+			return;
 		}
 
 		String message = event.getMessage();
@@ -555,8 +382,10 @@ public class MissedCluesPlugin extends Plugin
 
 			if (config.valuableThreshold() > 0 && totalPrice > config.valuableThreshold())
 			{
-				String fileName = String.format("%s-clue-%d-%s", clueConfig.getTier(), currentCount,
-						LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss")));
+				String fileName = String.format("%s clue (%,dgp)",
+						clueConfig.getTier().substring(0, 1).toUpperCase() + clueConfig.getTier().substring(1).toLowerCase(),
+						totalPrice
+				);
 				takeScreenshot(fileName);
 				log.debug("Taking screenshot of valuable clue reward worth {} gp", totalPrice);
 			}
@@ -602,57 +431,113 @@ public class MissedCluesPlugin extends Plugin
 		}
 	}
 
-	private void loadClueConfigs()
-	{
-		try (InputStream is = getClass().getResourceAsStream("/clue_config.json"))
-		{
-			if (is == null)
-			{
-				log.warn("Failed to find clue_config.json in resources.");
-				return;
-			}
-
-			clueConfigs = gson.fromJson(
-					new InputStreamReader(is, StandardCharsets.UTF_8),
-					new TypeToken<List<ClueConfiguration>>() {}.getType()
-			);
-			log.info("Loaded {} ClueConfiguration entries.", clueConfigs.size());
+	private void rollAllTiers() {
+		DisplayType displayType = config.watsonDisplay();
+		if (displayType == DisplayType.NONE) {
+			return;
 		}
-		catch (Exception e)
-		{
-			log.error("Error reading /clue_config.json", e);
+
+		Map<String, List<ItemStack>> allTierStacks = new LinkedHashMap<>();
+		long totalValue = 0;
+
+		String[] allTiers = {"easy", "medium", "hard", "elite"};
+
+		if (displayType == DisplayType.CHAT_MESSAGE || displayType == DisplayType.BOTH) {
+			client.addChatMessage(
+					ChatMessageType.GAMEMESSAGE,
+					"",
+					"You have a funny feeling like you would have received:",
+					null
+			);
+		}
+
+		for (String tier : allTiers) {
+			ClueConfiguration clueConfig = clueConfigs.stream()
+					.filter(cfg -> cfg.getTier().equalsIgnoreCase(tier))
+					.findFirst()
+					.orElse(null);
+
+			if (clueConfig != null) {
+				List<RewardItem> rewardList = rewardTables.get(clueConfig.getChatTrigger());
+				if (rewardList != null && !rewardList.isEmpty()) {
+					int minItems = clueConfig.getMinItems();
+					int maxItems = clueConfig.getMaxItems();
+					int countToPick = random.nextInt(maxItems - minItems + 1) + minItems;
+
+					List<RewardItem> chosenItems = pickWeightedItems(rewardList, countToPick);
+					chosenItems = consolidateItems(chosenItems);
+
+					if (!chosenItems.isEmpty()) {
+						List<ItemStack> tierStacks = chosenItems.stream()
+								.map(item -> new ItemStack(item.getItemId(), item.getParsedQuantity()))
+								.collect(Collectors.toList());
+
+						allTierStacks.put(tier, tierStacks);
+
+						if (displayType == DisplayType.CHAT_MESSAGE || displayType == DisplayType.BOTH) {
+							String itemsList = chosenItems.stream()
+									.map(item -> item.getQuantity() + "x " + item.getItemName())
+									.collect(Collectors.joining(", "));
+
+							long tierTotal = 0;
+							for (RewardItem item : chosenItems) {
+								int gePriceEach = itemManager.getItemPrice(item.getItemId());
+								tierTotal += (long) gePriceEach * item.getParsedQuantity();
+							}
+							totalValue += tierTotal;
+
+							client.addChatMessage(
+									ChatMessageType.GAMEMESSAGE,
+									"",
+									"[" + tier.substring(0, 1).toUpperCase() + tier.substring(1) + "] " + itemsList,
+									null
+							);
+						}
+					}
+				}
+			}
+		}
+
+		if (totalValue > 0 && (displayType == DisplayType.CHAT_MESSAGE || displayType == DisplayType.BOTH)) {
+			String formattedTotalPrice = String.format("%,d", totalValue);
+			client.addChatMessage(
+					ChatMessageType.GAMEMESSAGE,
+					"",
+					"Your loot would have been worth: " + formattedTotalPrice + " coins!",
+					null
+			);
+		}
+
+		if (displayType == DisplayType.OVERLAY || displayType == DisplayType.BOTH) {
+			missedCluesOverlay.setAllTierStacks(allTierStacks);
 		}
 	}
 
-	private void loadAllRewardTables()
+	private void showItemsInOverlay(List<RewardItem> chosenItems)
 	{
-		for (ClueConfiguration cfg : clueConfigs)
+		List<ItemStack> stacks = chosenItems.stream()
+				.map(item -> new ItemStack(item.getItemId(), item.getParsedQuantity()))
+				.collect(Collectors.toList());
+
+		missedCluesOverlay.displayItems(false);
+		missedCluesOverlay.setItemStacks(stacks);
+		missedCluesOverlay.displayItems(true);
+	}
+
+	private List<RewardItem> pickWeightedItems(List<RewardItem> sourceList, int countToPick)
+	{
+		List<RewardItem> chosenItems = new ArrayList<>();
+		for (int i = 0; i < countToPick; i++)
 		{
-			try (InputStream is = getClass().getResourceAsStream(cfg.getJsonResource()))
+			RewardItem reward = getWeightedRandomReward(sourceList);
+			if (reward != null)
 			{
-				if (is == null)
-				{
-					log.warn("Failed to locate {}", cfg.getJsonResource());
-					continue;
-				}
-
-				List<RewardItem> items = gson.fromJson(
-						new InputStreamReader(is, StandardCharsets.UTF_8),
-						new TypeToken<List<RewardItem>>() {}.getType()
-				);
-
-				rewardTables.put(cfg.getChatTrigger(), items);
-				log.info("Loaded {} items for trigger \"{}\" from {}",
-						items.size(),
-						cfg.getChatTrigger(),
-						cfg.getJsonResource()
-				);
-			}
-			catch (Exception e)
-			{
-				log.error("Error reading {}", cfg.getJsonResource(), e);
+				int parsedQty = reward.getParsedQuantity();
+				reward.setQuantity(String.valueOf(parsedQty));
+				chosenItems.add(reward);
 			}
 		}
+		return chosenItems;
 	}
 
 	private RewardItem getWeightedRandomReward(List<RewardItem> items)
@@ -674,22 +559,6 @@ public class MissedCluesPlugin extends Plugin
 			}
 		}
 		return null;
-	}
-
-	private List<RewardItem> pickWeightedItems(List<RewardItem> sourceList, int countToPick)
-	{
-		List<RewardItem> chosenItems = new ArrayList<>();
-		for (int i = 0; i < countToPick; i++)
-		{
-			RewardItem reward = getWeightedRandomReward(sourceList);
-			if (reward != null)
-			{
-				int parsedQty = reward.getParsedQuantity();
-				reward.setQuantity(String.valueOf(parsedQty));
-				chosenItems.add(reward);
-			}
-		}
-		return chosenItems;
 	}
 
 	private List<RewardItem> consolidateItems(List<RewardItem> items)
@@ -720,15 +589,57 @@ public class MissedCluesPlugin extends Plugin
 		return new ArrayList<>(byItemId.values());
 	}
 
-	private void showItemsInOverlay(List<RewardItem> chosenItems)
+	private void loadClueConfigs()
 	{
-		List<ItemStack> stacks = chosenItems.stream()
-				.map(item -> new ItemStack(item.getItemId(), item.getParsedQuantity()))
-				.collect(Collectors.toList());
+		try (InputStream is = getClass().getResourceAsStream("/clue_config.json"))
+		{
+			if (is == null)
+			{
+				log.warn("Failed to find clue_config.json in resources.");
+				return;
+			}
 
-		missedCluesOverlay.displayItems(false);
-		missedCluesOverlay.setItemStacks(stacks);
-		missedCluesOverlay.displayItems(true);
+			clueConfigs = gson.fromJson(
+					new InputStreamReader(is, StandardCharsets.UTF_8),
+					new TypeToken<List<ClueConfiguration>>() {}.getType()
+			);
+			log.debug("Loaded {} ClueConfiguration entries.", clueConfigs.size());
+		}
+		catch (Exception e)
+		{
+			log.error("Error reading /clue_config.json", e);
+		}
+	}
+
+	private void loadAllRewardTables()
+	{
+		for (ClueConfiguration cfg : clueConfigs)
+		{
+			try (InputStream is = getClass().getResourceAsStream(cfg.getJsonResource()))
+			{
+				if (is == null)
+				{
+					log.warn("Failed to locate {}", cfg.getJsonResource());
+					continue;
+				}
+
+				List<RewardItem> items = gson.fromJson(
+						new InputStreamReader(is, StandardCharsets.UTF_8),
+						new TypeToken<List<RewardItem>>() {}.getType()
+				);
+
+				rewardTables.put(cfg.getChatTrigger(), items);
+				log.debug("Loaded {} items for trigger \"{}\" from {}",
+						items.size(),
+						cfg.getChatTrigger(),
+						cfg.getJsonResource()
+				);
+			}
+			catch (Exception e)
+			{
+				log.error("Error reading {}", cfg.getJsonResource(), e);
+			}
+		}
 	}
 
 	private void migrateConfig() {
@@ -758,5 +669,96 @@ public class MissedCluesPlugin extends Plugin
 		}
 
 		configManager.setConfiguration("Clue Tiers", "migrated", 1);
+	}
+
+	private int getMissedCountFromConfig(String tier) {
+		switch (tier) {
+			case "beginner":
+				return config.missedBeginnerCount();
+			case "easy":
+				return config.missedEasyCount();
+			case "medium":
+				return config.missedMediumCount();
+			case "hard":
+				return config.missedHardCount();
+			case "elite":
+				return config.missedEliteCount();
+			case "master":
+				return config.missedMasterCount();
+			default:
+				return -1;
+		}
+	}
+
+	private void takeScreenshot(String fileName)
+	{
+		Consumer<Image> imageCallback = (img) ->
+		{
+			executor.submit(() -> {
+				try
+				{
+					takeScreenshot((BufferedImage) img, fileName);
+				}
+				catch (Exception ex)
+				{
+					log.warn("Error taking screenshot", ex);
+				}
+			});
+		};
+		drawManager.requestNextFrameListener(imageCallback);
+	}
+
+	private void takeScreenshot(BufferedImage image, String fileName)
+	{
+		imageCapture.saveScreenshot(image, fileName, "Missed Clues", config.notifyWhenTaken(), false);
+
+	}
+
+	private final KeyAdapter escKeyListener = new KeyAdapter()
+	{
+		@Override
+		public void keyPressed(KeyEvent e)
+		{
+			if ((missedCluesOverlay.isDisplayingItems() || missedCluesOverlay.isDisplayingAllTiers()) && e.getKeyCode() == KeyEvent.VK_ESCAPE)
+			{
+				missedCluesOverlay.displayItems(false);
+				missedCluesOverlay.displayAllTiers(false);
+			}
+		}
+	};
+
+	private final MouseAdapter mouseListener = new MouseAdapter()
+	{
+		@Override
+		public MouseEvent mousePressed(MouseEvent event)
+		{
+			if ((missedCluesOverlay.isDisplayingItems() || missedCluesOverlay.isDisplayingAllTiers()) && missedCluesOverlay.getCloseButtonBounds() != null)
+			{
+				if (missedCluesOverlay.getCloseButtonBounds().contains(event.getPoint()))
+				{
+					missedCluesOverlay.displayItems(false);
+					missedCluesOverlay.displayAllTiers(false);
+					event.consume();
+				}
+			}
+			return event;
+		}
+	};
+
+	private boolean containsItem(Item[] items, int itemId) {
+		for (Item item : items) {
+			if (item != null && item.getId() == itemId) {
+				return true;
+			}
+		}
+		return false;
+	}
+	private int getItemQuantity(Item[] items, int itemId) {
+		for (Item item : items) {
+			if (item != null && item.getId() == itemId) {
+				return item.getQuantity();
+			}
+		}
+		return 0;
 	}
 }

@@ -280,7 +280,8 @@ public interface MissedCluesConfig extends Config
 			keyName = "notifyWhenTaken",
 			name = "Notify when taken",
 			description = "Configures whether or not you are notified when a screenshot has been taken.",
-			position = 2
+			position = 2,
+			section = "screenshot"
 	)
 	default boolean notifyWhenTaken()
 	{
