@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Provides;
 import lombok.extern.slf4j.Slf4j;
+import net.runelite.api.ChatLineBuffer;
 import net.runelite.api.ChatMessageType;
 import net.runelite.api.Client;
 import net.runelite.api.events.ChatMessage;
@@ -136,7 +137,7 @@ public class MissedCluesPlugin extends Plugin
 					if (cleanText.equals("Watson hands you a master clue scroll.")) {
 						client.addChatMessage(
 								ChatMessageType.GAMEMESSAGE,
-								"",
+								"runelite",
 								"You have a funny feeling Watson has done your clues...",
 								null
 						);
@@ -350,7 +351,7 @@ public class MissedCluesPlugin extends Plugin
 
 			client.addChatMessage(
 					ChatMessageType.GAMEMESSAGE,
-					"",
+					"runelite",
 					"You have a funny feeling you would have received: " + itemsList,
 					null
 			);
@@ -430,7 +431,7 @@ public class MissedCluesPlugin extends Plugin
 		if (displayType == DisplayType.CHAT_MESSAGE || displayType == DisplayType.BOTH) {
 			client.addChatMessage(
 					ChatMessageType.GAMEMESSAGE,
-					"",
+					"runelite",
 					"You have a funny feeling like you would have received:",
 					null
 			);
