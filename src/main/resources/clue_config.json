@@ -14,6 +14,13 @@
     "maxItems": 3
   },
   {
+    "tier": "beginner",
+    "chatTrigger": "You have a sneaking suspicion that you would have received a beginner scroll box.",
+    "jsonResource": "/beginner_clues.json",
+    "minItems": 1,
+    "maxItems": 3
+  },
+  {
     "tier": "easy",
     "chatTrigger": "You have a sneaking suspicion that you would have received an easy clue scroll.",
     "jsonResource": "/easy_clues.json",
@@ -27,9 +34,23 @@
     "minItems": 2,
     "maxItems": 4
   },
+    {
+    "tier": "easy",
+    "chatTrigger": "You have a sneaking suspicion that you would have received an easy scroll box.",
+    "jsonResource": "/easy_clues.json",
+    "minItems": 2,
+    "maxItems": 4
+  },
   {
     "tier": "medium",
     "chatTrigger": "You have a sneaking suspicion that you would have received a medium clue scroll.",
+    "jsonResource": "/medium_clues.json",
+    "minItems": 3,
+    "maxItems": 5
+  },
+  {
+    "tier": "medium",
+    "chatTrigger": "You have a sneaking suspicion that you would have received a medium scroll box.",
     "jsonResource": "/medium_clues.json",
     "minItems": 3,
     "maxItems": 5
@@ -56,6 +77,13 @@
     "maxItems": 6
   },
   {
+    "tier": "hard",
+    "chatTrigger": "You have a sneaking suspicion that you would have received a hard scroll box.",
+    "jsonResource": "/hard_clues.json",
+    "minItems": 4,
+    "maxItems": 6
+  },
+  {
     "tier": "elite",
     "chatTrigger": "You have a sneaking suspicion that you would have received an elite clue scroll.",
     "jsonResource": "/elite_clues.json",
@@ -70,6 +98,13 @@
     "maxItems": 6
   },
   {
+    "tier": "elite",
+    "chatTrigger": "You have a sneaking suspicion that you would have received an elite scroll box.",
+    "jsonResource": "/elite_clues.json",
+    "minItems": 4,
+    "maxItems": 6
+  },
+  {
     "tier": "master",
     "chatTrigger": "You have a sneaking suspicion that you would have received a master clue scroll.",
     "jsonResource": "/master_clues.json",
@@ -79,6 +114,13 @@
   {
     "tier": "master",
     "chatTrigger": "You incinerate your master clue scroll.",
+    "jsonResource": "/master_clues.json",
+    "minItems": 5,
+    "maxItems": 7
+  },
+  {
+    "tier": "master",
+    "chatTrigger": "You have a sneaking suspicion that you would have received a master scroll box.",
     "jsonResource": "/master_clues.json",
     "minItems": 5,
     "maxItems": 7
