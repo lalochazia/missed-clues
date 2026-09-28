@@ -359,8 +359,8 @@ public class MissedCluesPlugin extends Plugin
 			long totalPrice = 0;
 			for (RewardItem item : chosenItems)
 			{
-				int gePriceEach = itemManager.getItemPrice(item.getItemId());
-				totalPrice += (long) gePriceEach * item.getParsedQuantity();
+				long gePriceEach = itemManager.getItemPrice(item.getItemId());
+				totalPrice += gePriceEach * item.getParsedQuantity();
 			}
 
 			config.lastMissedValue(totalPrice);
@@ -467,8 +467,8 @@ public class MissedCluesPlugin extends Plugin
 
 							long tierTotal = 0;
 							for (RewardItem item : chosenItems) {
-								int gePriceEach = itemManager.getItemPrice(item.getItemId());
-								tierTotal += (long) gePriceEach * item.getParsedQuantity();
+								long gePriceEach = itemManager.getItemPrice(item.getItemId());
+								tierTotal += gePriceEach * item.getParsedQuantity();
 							}
 							totalValue += tierTotal;
 
